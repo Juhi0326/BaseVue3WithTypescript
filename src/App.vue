@@ -8,30 +8,37 @@ const sharedFunction = () => {
 const otherFunction = () => {
   return 'This is the other function';
 };
-  
+
 provide('sharedFunction', sharedFunction);
 provide('otherFunction', otherFunction)
 
 </script>
 <template>
-  
-    <NavBar />
-    <v-app id="app">
-    <router-view class="container"></router-view>
+  <NavBar />
+  <v-app id="app">
+    <div class="content-container">
+      <router-view class="container"></router-view>
+    </div>
+
   </v-app>
-  
 </template>
 
 <style scoped>
+
+.content-container {
+  margin-left: 266px; /* Adjust this value as needed */
+}
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
