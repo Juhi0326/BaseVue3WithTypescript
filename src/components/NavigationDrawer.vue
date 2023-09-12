@@ -26,17 +26,35 @@
 import { ref, watch } from "vue";
 import { useDisplay } from 'vuetify'
 // Destructure only the keys you want to use
-const { sm, xs } = useDisplay();
+const { sm, xs, md, lg } = useDisplay();
 const isSm = ref(sm);
 const isXs = ref(xs);
+const isMd = ref(md)
+const isLg = ref(lg)
 const drawer = ref(true);
 const rail = ref(false);
 
 const toggleRail = () => {
-  if (!(isSm.value || isXs.value)) {
+  if (!(isSm.value || isXs.value || isMd.value || isLg.value)) {
     rail.value = !rail.value;
   }
 };
+
+watch(isLg, (newVal) => {
+  if (newVal) {
+    rail.value = true; // Set rail to true when sm is true
+  } else {
+    console.log('lg is not true');
+  }
+});
+
+watch(isMd, (newVal) => {
+  if (newVal) {
+    rail.value = true; // Set rail to true when sm is true
+  } else {
+    console.log('md is not true');
+  }
+});
 
 watch(isSm, (newVal) => {
   if (newVal) {

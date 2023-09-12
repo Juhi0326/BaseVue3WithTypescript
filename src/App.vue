@@ -17,7 +17,9 @@ provide('otherFunction', otherFunction)
   
     <NavBar />
     <v-app id="app">
+      <div class="container">
     <router-view class="container"></router-view>
+      </div>
   </v-app>
   
 </template>
