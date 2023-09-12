@@ -1,6 +1,20 @@
+<template>
+  <NavBar />
+  <v-app id="app">
+    <div :class="contentContainerClass">
+      <router-view class="container"></router-view>
+    </div>
+  </v-app>
+</template>
+
 <script setup lang="ts">
 import { provide } from 'vue'
 import NavBar from './components/NavBar.vue';
+import { useDisplay } from 'vuetify';
+
+const { xs, sm, md, lg } = useDisplay();
+
+const contentContainerClass = xs || sm || md || lg ? '' : 'content-container';
 
 const sharedFunction = () => {
   return 'This is the shared function';
@@ -13,15 +27,6 @@ provide('sharedFunction', sharedFunction);
 provide('otherFunction', otherFunction)
 
 </script>
-<template>
-  <NavBar />
-  <v-app id="app">
-    <div class="content-container">
-      <router-view class="container"></router-view>
-    </div>
-
-  </v-app>
-</template>
 
 <style scoped>
 
