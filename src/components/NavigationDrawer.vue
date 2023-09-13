@@ -18,8 +18,13 @@
               </v-list-item>
             </template>
           </v-tooltip>
-          <v-list-item prepend-icon="mdi-bed-double-outline " title="Hello World" value="home" @click="goToHelloWorld">
-          </v-list-item>
+          <v-tooltip text="Hello World" :open-on-hover="showTooltip">
+            <template v-slot:activator="{ props }">
+              <v-list-item prepend-icon="mdi-bed-double-outline " v-bind="props" title="Hello World" value="hello-world"
+                @click="goToHelloWorld">
+              </v-list-item>
+            </template>
+          </v-tooltip>
           <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
           <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
         </v-list>
