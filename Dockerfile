@@ -8,11 +8,6 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install project dependencies
-
-RUN npm add vuetify@^3.3.15
-# RUN npm install vue-router@4
-# RUN npm install pinia
-# RUN npm install axios
 RUN npm install
 
 # Copy the rest of the application code to the container
