@@ -1,7 +1,8 @@
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="mt-16">
+      <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="mt-16 drawer" 
+      color="teal-lighten-5" >
         <v-list-item @click="toggleRail">
           <div v-if="rail">
             <v-icon icon="mdi-chevron-right"></v-icon>
@@ -115,3 +116,9 @@ watch(isXs, (newVal) => {
   }
 });
 </script>
+
+<style scoped>
+.drawer {
+  opacity: 0.7;
+}
+</style>
