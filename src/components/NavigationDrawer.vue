@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer v-model="drawer" :rail="rail" permanent>
+      <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="mt-16">
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" title="John Leider" nav
           @click="toggleRail">
           <template v-slot:append>
@@ -51,8 +51,12 @@ const showTooltip = ref(false)
 
 
 const toggleRail = () => {
-  if (!(isSm.value || isXs.value || isMd.value || isLg.value)) {
-    rail.value = !rail.value;
+  if (!rail.value) {
+    rail.value = true
+  } else {
+    if (!(isSm.value || isXs.value || isMd.value || isLg.value)) {
+      rail.value = false
+    }
   }
   if (rail.value) {
     showTooltip.value = true
