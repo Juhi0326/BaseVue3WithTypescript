@@ -5,11 +5,14 @@
       <router-view class="container"></router-view>
     </div>
   </v-app>
+  <FooterComponent />
+
 </template>
 
 <script setup lang="ts">
 import { provide } from 'vue'
 import NavBar from './components/NavBar.vue';
+import FooterComponent from './components/FooterComponent.vue';
 import { useDisplay } from 'vuetify';
 
 const { xs, sm, md, lg } = useDisplay();
