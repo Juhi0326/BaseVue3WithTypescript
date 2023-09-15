@@ -2,14 +2,24 @@
   <v-card>
     <v-layout>
       <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="mt-16">
-        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg" title="John Leider" nav
-          @click="toggleRail">
+        <v-list-item @click="toggleRail">
+          <div v-if="rail">
+            <v-icon icon="mdi-chevron-right"></v-icon>
+          </div>
           <template v-slot:append>
-            <v-btn variant="text" icon="mdi-chevron-left" @click.stop="toggleRail"></v-btn>
+            <v-btn v-if="!rail" variant="text" icon="mdi-chevron-left" @click.stop="toggleRail"></v-btn>
           </template>
         </v-list-item>
-
         <v-divider></v-divider>
+        <v-tooltip text="User Profile" :open-on-hover="showTooltip">
+          <template v-slot:activator="{ props }">
+            <v-list-item class="ml-n2" v-bind="props" prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+              title="User Profile">
+            </v-list-item>
+          </template>
+        </v-tooltip>
+        <v-divider></v-divider>
+
 
         <v-list density="compact" nav>
           <v-tooltip text="Home" :open-on-hover="showTooltip">
