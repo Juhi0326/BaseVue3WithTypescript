@@ -1,4 +1,4 @@
-# Vue 3 + TypeScript + Vite with former backend project (https://github.com/Juhi0326/node-express-mongoDb-jwt.git) using node js express server with mongodb on javascript language.
+# Dockerized Vue 3 + TypeScript + Vite with former backend project (https://github.com/Juhi0326/node-express-mongoDb-jwt.git) using node js express server with mongodb on javascript language.
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
