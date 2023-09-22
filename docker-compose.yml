@@ -1,5 +1,5 @@
 services:
-  vue-app:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -8,4 +8,36 @@ services:
     volumes:
       - "/app/frontend/node_modules"
       - "./frontend/src:/app/frontend/src"
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - MONGODB_URI=${URI}
+      - MONGODB_DATABASE=${dbName}
+    volumes:
+      - ./backend:/app/backend
+      - /app/backend/node_modules/
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    command: mongod
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${dbUser}
+      MONGO_INITDB_ROOT_PASSWORD: ${dbPass}
+      MONGO_INITDB_DATABASE: ${dbName}
+    ports:
+      - 27017:27017
  

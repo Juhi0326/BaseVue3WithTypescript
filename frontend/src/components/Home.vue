@@ -12,10 +12,14 @@ import { ref, onMounted } from 'vue'
 import randomUserService from '../services/randomUserService';
 
 const user = ref()
+const products = ref(null)
 
 onMounted(async () => {
   user.value = await getData()
-  console.log(JSON.stringify(user.value))
+  products.value = await getProducts()
+  console.log(JSON.stringify(products.value))
+
+  //console.log(JSON.stringify(user.value))
 })
 
 
@@ -27,7 +31,15 @@ const getData = async () => {
   } catch (error) {
     console.log(error)
   }
-
+}
+const getProducts = async () => {
+  try {
+    const response = await randomUserService.getProducts()
+    const products = response.data
+    return products
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 
