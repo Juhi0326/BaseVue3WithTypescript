@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '.env' });
 const express = require('express');
 const app = express();
+const sanitize = require('sanitize');
 const product2Routes = require('./routes/product2Routes')
 const orderRoutes = require('./routes/orders');
 const userRoutes = require('./routes/users');
@@ -19,6 +20,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true,  useF
 
 
 app.use(morgan('dev'));
+app.use(sanitize.middleware);
 app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
