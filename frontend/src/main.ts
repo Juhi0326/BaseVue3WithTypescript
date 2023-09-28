@@ -14,6 +14,19 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 const vuetify = createVuetify({
+  theme: {
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          primary:'#00838F', //cyan-darken-3
+          secondary: "#1DE9B6", // teal-accent-3
+          success: '#7CB342', // light-green-darken-1
+          error: '#E53935' //red-darken-1
+        }
+      },
+    },
+  },
   directives,
   components,
   icons: {
