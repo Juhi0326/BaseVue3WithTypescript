@@ -17,16 +17,24 @@ import CustomButtonComponent from '../components/CustomButtonComponent.vue';
 import { ref, onMounted } from 'vue'
 import randomUserService from '../composables/services/randomUserService';
 import authService from '../composables/services/useAuthService'
+import axios, { AxiosError } from 'axios';
 
 const user = ref()
 const products = ref(null)
 
 const login = async ()=> {
   try {
-    const response = await authService.login({email:'juhiami@gmail.com', password:'Juhi123*' })
+    const response = await authService.login({email:'juhiami@gmail.com', password:'Juhi1234*' })
     console.log(JSON.stringify(response))
   } catch (error) {
-    
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        console.log(axiosError.response.data);
+      }
+    } else {
+      console.log(error);
+    }
   }
 }
 
