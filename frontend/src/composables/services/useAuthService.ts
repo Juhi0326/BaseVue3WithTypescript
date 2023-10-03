@@ -16,7 +16,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem("user");
-    localStorage.removeItem("cartItems");
+    //localStorage.removeItem("cartItems");
   }
 
   registerForm(user: any) {

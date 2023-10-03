@@ -1,46 +1,51 @@
 <template>
-  <div v-if="user">
-    name: {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
-  </div>
-  <div>Picture</div>
+    státusz: {{ loggedIn }}
+      <v-carousel style="width: 100%;">
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover ></v-carousel-item>
 
-  <CustomButtonComponent class="mx-2" @click="login" color="primary">login
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
+
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
+      </v-carousel>
+    <div v-if="user">
+      name: {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
+    </div>
+    <div>Picture</div>
+
+    <CustomButtonComponent class="mx-2" @click="login" color="primary">login
     </CustomButtonComponent>
     <br>
     <br>
 
-  <v-img v-if="user" :width="300" aspect-ratio="16/9" cover :src=user.picture.medium></v-img>
+    <v-img v-if="user" :width="300" aspect-ratio="16/9" cover :src=user.picture.medium></v-img>
+
 </template>
 
 <script setup lang="ts">
 import CustomButtonComponent from '../components/CustomButtonComponent.vue';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import randomUserService from '../composables/services/randomUserService';
-import authService from '../composables/services/useAuthService'
-import axios, { AxiosError } from 'axios';
+import HomePageService from '../composables/services/useHomePageService';
+import { useAuthUserStore } from '../stores/user';
 
 const user = ref()
 const products = ref(null)
+const homePageData = ref(null)
+const authUserStore = useAuthUserStore();
+const loggedIn = computed(() => authUserStore.isLoggedIn)
 
-const login = async ()=> {
+const login = async () => {
   try {
-    const response = await authService.login({email:'juhiami@gmail.com', password:'Juhi1234*' })
-    console.log(JSON.stringify(response))
+    await authUserStore.login(authUserStore.$state, {email: 'juhiami@gmail.com', password: 'Juhi123*'}); 
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response) {
-        console.log(axiosError.response.data);
-      }
-    } else {
-      console.log(error);
-    }
+    console.log(error)
   }
-}
+};
 
 onMounted(async () => {
   user.value = await getData()
   products.value = await getProducts()
+  homePageData.value = await getHomePageData()
   console.log(JSON.stringify(products.value))
 
   //console.log(JSON.stringify(user.value))
@@ -61,6 +66,17 @@ const getProducts = async () => {
     const response = await randomUserService.getProducts()
     const products = response.data
     return products
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getHomePageData = async () => {
+  try {
+    const response = await HomePageService.getHomePage()
+    const data = response.data
+    console.log(data)
+    return data
   } catch (error) {
     console.log(error)
   }

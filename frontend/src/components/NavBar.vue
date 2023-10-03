@@ -8,7 +8,8 @@
         <v-app-bar-title class="ml-16">Juhi's Vue 3 project </v-app-bar-title>
         <v-spacer></v-spacer>
         <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
+          <v-icon v-if="!loggedIn" @click="logIn">mdi-door-closed-lock</v-icon>
+          <v-icon v-else @click="logOut">mdi-logout</v-icon>
         </v-btn>
         <v-btn icon>
           <v-icon>mdi-heart</v-icon>
@@ -23,6 +24,15 @@
 
 <script setup lang="ts">
 import NavigationDrawer from './NavigationDrawer.vue';
+import { useAuthUserStore } from '../stores/user';
+import { computed } from 'vue'
 
-
+const authUserStore = useAuthUserStore();
+const loggedIn = computed(() => authUserStore.isLoggedIn)
+const logOut = () => {
+  authUserStore.logOut()
+}
+const logIn = () => {
+  console.log("logIn")
+}
 </script>

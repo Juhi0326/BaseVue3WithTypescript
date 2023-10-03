@@ -2,11 +2,10 @@
   <NavBar />
   <v-app id="app">
     <div :class="contentContainerClass">
-      <router-view class="container"></router-view>
+      <router-view></router-view>
     </div>
   </v-app>
   <FooterComponent />
-
 </template>
 
 <script setup lang="ts">
@@ -49,5 +48,8 @@ provide('otherFunction', otherFunction)
 
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.v-theme--light {
+  background: none;
 }
 </style>
