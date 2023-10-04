@@ -26,6 +26,7 @@
 import NavigationDrawer from './NavigationDrawer.vue';
 import { useAuthUserStore } from '../stores/user';
 import { computed } from 'vue'
+import router from "../router";
 
 const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
@@ -33,6 +34,6 @@ const logOut = () => {
   authUserStore.logOut()
 }
 const logIn = () => {
-  console.log("logIn")
+  router.push('/login')
 }
 </script>

@@ -47,8 +47,6 @@ onMounted(async () => {
   products.value = await getProducts()
   homePageData.value = await getHomePageData()
   console.log(JSON.stringify(products.value))
-
-  //console.log(JSON.stringify(user.value))
 })
 
 

@@ -2,7 +2,11 @@
   <NavBar />
   <v-app id="app">
     <div :class="contentContainerClass">
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <transition name="slide-fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </v-app>
   <FooterComponent />
@@ -31,10 +35,11 @@ provide('otherFunction', otherFunction)
 </script>
 
 <style scoped>
-
 .content-container {
-  margin-left: 266px; /* Adjust this value as needed */
+  margin-left: 266px;
+  /* Adjust this value as needed */
 }
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -49,7 +54,21 @@ provide('otherFunction', otherFunction)
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
+
 .v-theme--light {
   background: none;
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
