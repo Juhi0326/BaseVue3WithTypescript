@@ -1,62 +1,44 @@
 <template>
-    státusz: {{ loggedIn }}
-      <v-carousel style="width: 100%;">
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover ></v-carousel-item>
-
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
-
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
-      </v-carousel>
-    <div v-if="user">
-      name: {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
+  <main>
+    <div class="text-h1 font-weight-bold mb-4 pt-12" v-if="homePageData">
+      {{ homePageData.HomePage[0].Title.titleDescription }}
     </div>
-    <div>Picture</div>
+    <v-row class="mt-12">
+      <v-col cols="6">
+        <div class="mb-8 text-h3" v-if="homePageData">
+          {{ homePageData.HomePage[0].Heading.headingDescription }}
+        </div>
+        <v-img
+        v-if="homePageData"
+        class="bg-white"
+       
+        :aspect-ratio="1"
+        :src="headingImagePath" height="300px"
+        cover
+      ></v-img>
+      </v-col>
+    </v-row>
 
-    <br>
-    <br>
 
-    <v-img v-if="user" :width="300" aspect-ratio="16/9" cover :src=user.picture.medium></v-img>
-
+  </main>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import randomUserService from '../composables/services/randomUserService';
+import { ref, onMounted } from 'vue'
 import HomePageService from '../composables/services/useHomePageService';
-import { useAuthUserStore } from '../stores/user';
+import HomePageInterface from '../composables/interfaces/useHomePageInterface'
 
-const user = ref()
-const products = ref(null)
-const homePageData = ref(null)
-const authUserStore = useAuthUserStore();
-const loggedIn = computed(() => authUserStore.isLoggedIn)
+const homePageData = ref<HomePageInterface | null>(null)
+const headingImagePath = ref('')
 
 onMounted(async () => {
-  user.value = await getData()
-  products.value = await getProducts()
-  homePageData.value = await getHomePageData()
-  console.log(JSON.stringify(products.value))
-})
-
-
-const getData = async () => {
-  try {
-    const response = await randomUserService.getRandomUser()
-    const randomUser = response.data
-    return randomUser.results[0]
-  } catch (error) {
-    console.log(error)
+  const data = await getHomePageData();
+  if (data !== null) {
+    homePageData.value = data;
+    headingImagePath.value = "http://localhost:8081/" + homePageData.value?.HomePage[0].Heading.headingImagePath
   }
-}
-const getProducts = async () => {
-  try {
-    const response = await randomUserService.getProducts()
-    const products = response.data
-    return products
-  } catch (error) {
-    console.log(error)
-  }
-}
+});
+
 
 const getHomePageData = async () => {
   try {
@@ -67,6 +49,8 @@ const getHomePageData = async () => {
   } catch (error) {
     console.log(error)
   }
+
+
 }
 
 

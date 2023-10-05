@@ -11,8 +11,8 @@
             </v-text-field>
 
             <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-                Jelszó
-                <router-link to='/reset-password-email'>Elfelejtetted a jelszavadat?</router-link>
+                <span class="text">Jelszó</span> 
+                <router-link class="r-link" to='/reset-password-email'>Elfelejtetted a jelszavadat?</router-link>
             </div>
 
             <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -33,7 +33,7 @@
             </v-btn>
 
             <v-card-text class="text-center">
-                <router-link to='/register'>Regisztrálj most!</router-link>
+                <router-link class="r-link" to='/register'>Regisztrálj most!</router-link>
             </v-card-text>
         </v-card>
     </div>
@@ -72,5 +72,11 @@ const goToHomePage = () => {
 <style scoped>
 .v-input__control {
     background-color: aliceblue;
+}
+.r-link {
+    color: #FF8A80;
+}
+.text {
+    color: aliceblue;
 }
 </style>
