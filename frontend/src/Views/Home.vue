@@ -12,8 +12,6 @@
     </div>
     <div>Picture</div>
 
-    <CustomButtonComponent class="mx-2" @click="login" color="primary">login
-    </CustomButtonComponent>
     <br>
     <br>
 
@@ -22,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomButtonComponent from '../components/CustomButtonComponent.vue';
 import { ref, onMounted, computed } from 'vue'
 import randomUserService from '../composables/services/randomUserService';
 import HomePageService from '../composables/services/useHomePageService';
@@ -33,14 +30,6 @@ const products = ref(null)
 const homePageData = ref(null)
 const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
-
-const login = async () => {
-  try {
-    await authUserStore.login(authUserStore.$state, {email: 'juhiami@gmail.com', password: 'Juhi123*'}); 
-  } catch (error) {
-    console.log(error)
-  }
-};
 
 onMounted(async () => {
   user.value = await getData()
