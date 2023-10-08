@@ -25,9 +25,9 @@
                 </v-card-text>
             </v-card>
 
-            <v-btn block class="mb-8" color="aliceblue" size="large" variant="tonal" type="submit">
+            <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" type="submit">
                 Log In
-            </v-btn>
+            </CustomButtonComponent>
 
             <v-card-text class="text-center">
                 <router-link class="r-link" to='/register'>Regisztrálj most!</router-link>
@@ -40,6 +40,7 @@
 import { ref } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import router from "../router";
+import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 
 const visible = ref(false)
 const email = ref('')
