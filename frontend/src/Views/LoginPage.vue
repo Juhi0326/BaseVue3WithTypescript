@@ -1,13 +1,11 @@
 <template>
-    <div>
+    <v-form @submit.prevent="submit">
         <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg" color="primary">
             <v-img class="align-end text-white" height="200" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
                 <v-card-title class="mb-12">Bejelentkezés</v-card-title>
             </v-img>
-
             <v-text-field v-model="email" class="mt-12 custom-background" density="compact" placeholder="Email cím"
                 prepend-inner-icon="mdi-email-outline" variant="outlined">
-
             </v-text-field>
 
             <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -19,7 +17,6 @@
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be a jelszavad"
                 prepend-inner-icon="mdi-lock-outline" variant="outlined"
                 @click:append-inner="visible = !visible"></v-text-field>
-
             <v-card class="mb-12" color="surface-variant" variant="tonal">
                 <v-card-text class="text-medium-emphasis text-caption">
                     Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three
@@ -28,7 +25,7 @@
                 </v-card-text>
             </v-card>
 
-            <v-btn block class="mb-8" color="aliceblue" size="large" variant="tonal" @click="login">
+            <v-btn block class="mb-8" color="aliceblue" size="large" variant="tonal" type="submit">
                 Log In
             </v-btn>
 
@@ -36,7 +33,7 @@
                 <router-link class="r-link" to='/register'>Regisztrálj most!</router-link>
             </v-card-text>
         </v-card>
-    </div>
+    </v-form>
 </template>
 
 <script setup lang="ts">
@@ -67,6 +64,10 @@ const goToHomePage = () => {
     router.push('/')
 }
 
+const submit = () => {
+    login()
+}
+    
 </script>
 
 <style scoped>
