@@ -14,14 +14,14 @@
         </div>
       </v-col>
       <v-col sm="12" md="6">>
-        <v-img v-if="homePageData" class="bg-white" :aspect-ratio="1" :src="headingImagePath" height="300px"
-          cover></v-img>
+        <v-img v-if="homePageData" class="bg-white" aspect-ratio="16/9" :src="headingImagePath" height="300px">
+        </v-img>
       </v-col>
     </v-row>
     <v-row class="mt-12">
       <v-col sm="12" md="6">>
-        <v-img v-if="homePageData" class="bg-white" :aspect-ratio="1" :src="introductionImagePath" height="300px"
-          cover></v-img>
+        <v-img v-if="homePageData" class="bg-white" aspect-ratio="16/9" :src="introductionImagePath"
+          height="300px"></v-img>
       </v-col>
       <v-col sm="12" md="6">
         <div class="mb-8 text-h3" v-if="homePageData">
