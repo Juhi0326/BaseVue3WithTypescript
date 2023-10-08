@@ -8,18 +8,24 @@ const { JsonWebTokenError } = require('jsonwebtoken');
 //a képet így lehet elérni: http://localhost:8081/uploads/1620145209368sky.jpg
 
 exports.homePage2_get_all = (req, res, next) => {
-    HomePage2.find()
+    HomePage2.findOne()
         .select('-_v')
         .exec()
-        .then((doc) => {
-            res.status(200).json(doc);
+        .then((homePage) => {
+            if (!homePage) {
+                return res.status(404).json({
+                    message: 'Home page not found',
+                });
+            }
+            res.status(200).json(homePage);
         })
         .catch((err) => {
             res.status(500).json({
-                Error: err,
+                Error:  err.message,
             });
         });
 };
+
 
 exports.homePage2_create = (req, res, next) => {
     console.log(req.body)

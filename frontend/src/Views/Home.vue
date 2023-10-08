@@ -1,12 +1,12 @@
 <template>
   <main>
     <div class="text-h1 font-weight-bold mb-4 pt-12" v-if="homePageData">
-      {{ homePageData.HomePage[0].Title.titleDescription }}
+      {{ homePageData.Title.titleDescription }}
     </div>
     <v-row class="mt-12">
       <v-col cols="6">
         <div class="mb-8 text-h3" v-if="homePageData">
-          {{ homePageData.HomePage[0].Heading.headingDescription }}
+          {{ homePageData.Heading.headingDescription }}
         </div>
         <v-img
         v-if="homePageData"
@@ -35,7 +35,7 @@ onMounted(async () => {
   const data = await getHomePageData();
   if (data !== null) {
     homePageData.value = data;
-    headingImagePath.value = "http://localhost:8081/" + homePageData.value?.HomePage[0].Heading.headingImagePath
+    headingImagePath.value = "http://localhost:8081/" + homePageData.value?.Heading.headingImagePath
   }
 });
 

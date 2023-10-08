@@ -1,6 +1,4 @@
 interface HomePage {
-    count: number;
-    HomePage: {
       Title: {
         titleDescription: string;
         titleImagePath: string;
@@ -45,7 +43,6 @@ interface HomePage {
         section_6Description: string;
         section_6ImagePath: string;
       };
-    }[];
   }
 
   export default HomePage
