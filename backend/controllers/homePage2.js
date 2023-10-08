@@ -7,7 +7,7 @@ const { JsonWebTokenError } = require('jsonwebtoken');
 
 //a képet így lehet elérni: http://localhost:8081/uploads/1620145209368sky.jpg
 
-exports.homePage2_get_all = (req, res, next) => {
+exports.homePage2_get = (req, res, next) => {
     HomePage2.findOne()
         .select('-_v')
         .exec()
