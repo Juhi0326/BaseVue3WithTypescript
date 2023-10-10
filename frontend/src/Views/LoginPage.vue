@@ -1,6 +1,6 @@
 <template>
     <v-form @submit.prevent="submit">
-        <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg" color="primary">
+        <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="600" rounded="lg" color="primary">
             <v-img class="align-end text-white" height="200" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
                 <v-card-title class="mb-12">Bejelentkezés</v-card-title>
             </v-img>
