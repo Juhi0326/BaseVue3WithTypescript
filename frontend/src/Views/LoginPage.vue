@@ -9,7 +9,7 @@
             </v-text-field>
 
             <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-                <span class="text">Jelszó</span> 
+                <span class="text">Jelszó</span>
                 <router-link class="r-link" to='/reset-password-email'>Elfelejtetted a jelszavadat?</router-link>
             </div>
 
@@ -18,7 +18,7 @@
                 prepend-inner-icon="mdi-lock-outline" variant="outlined"
                 @click:append-inner="visible = !visible"></v-text-field>
             <v-card class="mb-12" color="surface-variant" variant="tonal">
-                <v-card-text class="text-medium-emphasis text-caption white-text" >
+                <v-card-text class="text-medium-emphasis text-caption white-text">
                     Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three
                     hours. If you must login now, you can also click "Forgot login password?" below to reset the login
                     password.
@@ -41,25 +41,51 @@ import { ref } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import router from "../router";
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
+import { UseSnackBar } from '../stores/useSnackBar';
 
 const visible = ref(false)
 const email = ref('')
 const password = ref('')
 const authUserStore = useAuthUserStore();
+const useSnackBar = UseSnackBar();
 
 const clearForm = () => {
     email.value = ''
     password.value = ''
 }
 const login = async () => {
-    try {
-        await authUserStore.login(authUserStore.$state, { email: email.value, password: password.value });
+    await authUserStore.login(authUserStore.$state, { email: email.value, password: password.value });
+    if (authUserStore.isLoggedIn) {
         clearForm()
+        openSnackbar()
         goToHomePage()
-    } catch (error) {
-        console.log(error)
+        console.log(1)
+    } else {
+        loginError()
+        console.log(2)
     }
+
 };
+
+const openSnackbar = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Sikeres bejelentkezés!',
+            color: 'primary',
+        }
+    })
+}
+
+const loginError = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Sikertelen bejelentkezés!',
+            color: 'error',
+        }
+    })
+}
 
 const goToHomePage = () => {
     router.push('/')
@@ -68,16 +94,22 @@ const goToHomePage = () => {
 const submit = () => {
     login()
 }
-    
+
 </script>
 
 <style scoped>
+.white-text {
+    color: aliceblue !important;
+}
+
 .v-input__control {
     background-color: aliceblue;
 }
+
 .r-link {
     color: #FF8A80;
 }
+
 .text {
     color: aliceblue;
 }

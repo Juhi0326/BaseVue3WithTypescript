@@ -1,4 +1,5 @@
 <template>
+  <SnackBar top/>
   <NavBar />
   <v-app id="app">
     <div :class="contentContainerClass">
@@ -15,6 +16,8 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 import NavBar from './components/NavBar.vue';
+import SnackBar from './components/CustomSnackBar.vue';
+
 import FooterComponent from './components/FooterComponent.vue';
 import { useDisplay } from 'vuetify';
 
