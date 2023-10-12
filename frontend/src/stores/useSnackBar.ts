@@ -27,6 +27,9 @@ export const UseSnackBar = defineStore("UseSnackBarStore", {
     getSnackBarSecondText: (state) => {
       return state.snackbar.secondText;
     },
+    getSnackBarColor: (state) => {
+      return state.snackbar.color;
+    },
   },
   actions: {
     updateState: function ($state: SnackBar, newState: SnackBarForModification) {

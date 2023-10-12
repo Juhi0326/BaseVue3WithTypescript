@@ -27,13 +27,41 @@ import NavigationDrawer from './NavigationDrawer.vue';
 import { useAuthUserStore } from '../stores/user';
 import { computed } from 'vue'
 import router from "../router";
+import { UseSnackBar } from '../stores/useSnackBar';
 
+const useSnackBar = UseSnackBar();
 const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
 const logOut = () => {
-  authUserStore.logOut()
+  try {
+    authUserStore.logOut()
+  openSnackbar()
+  } catch (error) {
+    logOutError()
+  }
+
 }
 const logIn = () => {
   router.push('/login')
+}
+
+const openSnackbar = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Sikeres kijelentkezés!',
+            color: 'success',
+        }
+    })
+}
+
+const logOutError = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Sikertelen kijelentkezés!',
+            color: 'error',
+        }
+    })
 }
 </script>

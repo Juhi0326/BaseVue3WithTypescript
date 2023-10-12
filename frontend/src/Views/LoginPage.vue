@@ -72,7 +72,7 @@ const openSnackbar = () => {
         snackbar: {
             visible: true,
             text: 'Sikeres bejelentkezés!',
-            color: 'primary',
+            color: 'success',
         }
     })
 }
