@@ -14,7 +14,7 @@
         <v-divider></v-divider>
         <v-tooltip text="User Profile" :open-on-hover="showTooltip">
           <template v-slot:activator="{ props }">
-            <v-list-item class="ml-n2" v-bind="props" prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
+            <v-list-item v-if="loggedIn" class="ml-n2" v-bind="props" prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
               title="User Profile">
             </v-list-item>
           </template>
@@ -47,9 +47,10 @@
   
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useDisplay } from 'vuetify'
 import router from "../router";
+import { useAuthUserStore } from '../stores/user';
 // Destructure only the keys you want to use
 const { sm, xs, md, lg } = useDisplay();
 const isSm = ref(sm);
@@ -59,8 +60,9 @@ const isLg = ref(lg)
 const drawer = ref(true);
 const rail = ref(false);
 const showTooltip = ref(false)
+const authUserStore = useAuthUserStore();
 
-
+const loggedIn = computed(() => authUserStore.isLoggedIn)
 const toggleRail = () => {
   if (!rail.value) {
     rail.value = true
