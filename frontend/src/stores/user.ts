@@ -22,10 +22,36 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
         return state.initialState.user.userName;
       }
     },
+    userImage: (state) => {
+      if (state.initialState.user && state.initialState.user.userImage) {
+        const userImage = "http://localhost:8081/" + state.initialState.user.userImage
+        return userImage
+        ;
+      }
+    },
+    userRole: (state) => {
+      if (state.initialState.user) {
+        return state.initialState.user.role;
+      }
+    },
+    userMonogram: (state) => {
+      let monogram = ''
+      if (state.initialState.user) {
+        const partOfName = state.initialState.user.userName.split(' ');
+        for (let i = 0; i < partOfName.length; i++) {
+          // Az aktuális névrész első karakterét hozzáadjuk a monogramhoz
+          monogram += partOfName[i][0].toUpperCase();
+        }
+      }
+      return monogram
+    },
+    
     isLoggedIn: (state) => {
       return !!state.initialState.user;
     },
   },
+
+  
   actions: {
     login: async (
       state: {

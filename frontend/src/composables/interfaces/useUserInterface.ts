@@ -5,7 +5,7 @@ interface User {
     role: String,
     userName: String,
     cart?: Array<Object>,
-    imagePath?: String,
+    userImage?: String,
     accessToken: String,
   }
 

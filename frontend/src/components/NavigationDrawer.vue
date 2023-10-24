@@ -1,35 +1,38 @@
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer v-model="drawer" :rail="rail" permanent class="mt-16 drawer" 
-      color="teal-lighten-5" >
-        <v-list-item @click="toggleRail">
-          <div v-if="rail">
-            <v-icon icon="mdi-chevron-right"></v-icon>
-          </div>
-          <template v-slot:append>
-            <v-btn v-if="!rail" variant="text" icon="mdi-chevron-left" @click.stop="toggleRail"></v-btn>
-          </template>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-tooltip text="User Profile" :open-on-hover="showTooltip">
+      <v-navigation-drawer :rail="true" permanent class="mt-16 drawer" color="teal-lighten-5"
+        rail-width="68">
+        <br>
+        <v-tooltip text="User Profile" :open-on-hover="true" v-if="userImage">
           <template v-slot:activator="{ props }">
-            <v-list-item v-if="loggedIn" class="ml-n2" v-bind="props" prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-              title="User Profile">
+            <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
+              <v-avatar color="red" size="35">
+                <v-img :src="userImage"></v-img>
+              </v-avatar>
             </v-list-item>
           </template>
         </v-tooltip>
-        <v-divider></v-divider>
+        <v-tooltip text="User Profile 2" :open-on-hover="true" v-else>
+          <template v-slot:activator="{ props }">
+            <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
+              <v-avatar color="red" size="35">
+                <span class="text-h8">{{ monogram }}</span>
+              </v-avatar>
+            </v-list-item>
+          </template>
+        </v-tooltip>
+        <v-divider class="mt-4"></v-divider>
 
 
-        <v-list density="compact" nav>
-          <v-tooltip text="Home" :open-on-hover="showTooltip">
+        <v-list density="compact" nav class="mt-2">
+          <v-tooltip text="Home" :open-on-hover="true">
             <template v-slot:activator="{ props }">
               <v-list-item prepend-icon="mdi-home-city" v-bind="props" title="Home" value="home" @click="goToHome">
               </v-list-item>
             </template>
           </v-tooltip>
-          <v-tooltip text="Hello World" :open-on-hover="showTooltip">
+          <v-tooltip text="Hello World" :open-on-hover="true">
             <template v-slot:activator="{ props }">
               <v-list-item prepend-icon="mdi-bed-double-outline " v-bind="props" title="Hello World" value="hello-world"
                 @click="goToHelloWorld">
@@ -47,36 +50,15 @@
   
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useDisplay } from 'vuetify'
+import { computed } from "vue";
 import router from "../router";
 import { useAuthUserStore } from '../stores/user';
-// Destructure only the keys you want to use
-const { sm, xs, md, lg } = useDisplay();
-const isSm = ref(sm);
-const isXs = ref(xs);
-const isMd = ref(md)
-const isLg = ref(lg)
-const drawer = ref(true);
-const rail = ref(false);
-const showTooltip = ref(false)
-const authUserStore = useAuthUserStore();
 
+const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
-const toggleRail = () => {
-  if (!rail.value) {
-    rail.value = true
-  } else {
-    if (!(isSm.value || isXs.value || isMd.value || isLg.value)) {
-      rail.value = false
-    }
-  }
-  if (rail.value) {
-    showTooltip.value = true
-  } else {
-    showTooltip.value = false
-  }
-};
+const userImage = computed(() => authUserStore.userImage)
+const monogram = computed(() => authUserStore.userMonogram)
+
 
 const goToHome = () => {
   router.push('/')
@@ -84,39 +66,6 @@ const goToHome = () => {
 const goToHelloWorld = () => {
   router.push('/hello-world')
 }
-
-
-watch(isLg, (newVal) => {
-  if (newVal) {
-    rail.value = true; // Set rail to true when sm is true
-  } else {
-    console.log('lg is not true');
-  }
-});
-
-watch(isMd, (newVal) => {
-  if (newVal) {
-    rail.value = true; // Set rail to true when sm is true
-  } else {
-    console.log('md is not true');
-  }
-});
-
-watch(isSm, (newVal) => {
-  if (newVal) {
-    rail.value = true; // Set rail to true when sm is true
-  } else {
-    console.log('sm is not true');
-  }
-});
-
-watch(isXs, (newVal) => {
-  if (newVal) {
-    rail.value = true; // Set rail to true when xs is true
-  } else {
-    console.log('xs is not true');
-  }
-});
 </script>
 
 <style scoped>
