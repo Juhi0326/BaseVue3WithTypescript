@@ -3,11 +3,13 @@
     <v-layout>
       <v-navigation-drawer :rail="true" permanent class="mt-16 drawer" color="teal-lighten-5" rail-width="82">
         <br>
-        <v-list class="ml-3">
+        <v-list class="ml-3" v-if="loggedIn">
           <v-tooltip text="User Profile" :open-on-hover="true" v-if="userImage">
             <template v-slot:activator="{ props }">
-              <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
-                <v-avatar color="red" size="36">
+              <v-list-item class="ml-n1" v-bind="props">
+                <v-avatar color="red" size="36" :style="{
+                  cursor: 'pointer'
+                }">
                   <v-img :src="userImage"></v-img>
                 </v-avatar>
               </v-list-item>
@@ -15,8 +17,10 @@
           </v-tooltip>
           <v-tooltip text="User Profile 2" :open-on-hover="true" v-else>
             <template v-slot:activator="{ props }">
-              <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
-                <v-avatar color="red" size="36">
+              <v-list-item class="ml-n1" v-bind="props">
+                <v-avatar color="red" size="36" :style="{
+                  cursor: 'pointer'
+                }">
                   <span class="text-h8">{{ monogram }}</span>
                 </v-avatar>
               </v-list-item>
@@ -24,10 +28,10 @@
           </v-tooltip>
         </v-list>
 
-        <v-divider class="mt-4"></v-divider>
+        <v-divider class="mt-4" v-if="loggedIn"></v-divider>
 
 
-        <v-list density="compact" nav class="mt-2 ml-3">
+        <v-list density="compact" nav class="mt-3 ml-3">
           <v-tooltip text="Home" :open-on-hover="true">
             <template v-slot:activator="{ props }">
               <v-list-item prepend-icon="mdi-home-city" v-bind="props" title="Home" value="home" @click="goToHome">
