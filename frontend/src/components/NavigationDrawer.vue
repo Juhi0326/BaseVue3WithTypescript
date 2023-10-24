@@ -1,31 +1,33 @@
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer :rail="true" permanent class="mt-16 drawer" color="teal-lighten-5"
-        rail-width="68">
+      <v-navigation-drawer :rail="true" permanent class="mt-16 drawer" color="teal-lighten-5" rail-width="82">
         <br>
-        <v-tooltip text="User Profile" :open-on-hover="true" v-if="userImage">
-          <template v-slot:activator="{ props }">
-            <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
-              <v-avatar color="red" size="35">
-                <v-img :src="userImage"></v-img>
-              </v-avatar>
-            </v-list-item>
-          </template>
-        </v-tooltip>
-        <v-tooltip text="User Profile 2" :open-on-hover="true" v-else>
-          <template v-slot:activator="{ props }">
-            <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
-              <v-avatar color="red" size="35">
-                <span class="text-h8">{{ monogram }}</span>
-              </v-avatar>
-            </v-list-item>
-          </template>
-        </v-tooltip>
+        <v-list class="ml-3">
+          <v-tooltip text="User Profile" :open-on-hover="true" v-if="userImage">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
+                <v-avatar color="red" size="36">
+                  <v-img :src="userImage"></v-img>
+                </v-avatar>
+              </v-list-item>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="User Profile 2" :open-on-hover="true" v-else>
+            <template v-slot:activator="{ props }">
+              <v-list-item v-if="loggedIn" class="ml-n1" v-bind="props">
+                <v-avatar color="red" size="36">
+                  <span class="text-h8">{{ monogram }}</span>
+                </v-avatar>
+              </v-list-item>
+            </template>
+          </v-tooltip>
+        </v-list>
+
         <v-divider class="mt-4"></v-divider>
 
 
-        <v-list density="compact" nav class="mt-2">
+        <v-list density="compact" nav class="mt-2 ml-3">
           <v-tooltip text="Home" :open-on-hover="true">
             <template v-slot:activator="{ props }">
               <v-list-item prepend-icon="mdi-home-city" v-bind="props" title="Home" value="home" @click="goToHome">
