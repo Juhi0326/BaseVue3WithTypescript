@@ -17,14 +17,6 @@
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be a jelszavad"
                 prepend-inner-icon="mdi-lock-outline" variant="outlined"
                 @click:append-inner="visible = !visible"></v-text-field>
-            <v-card class="mb-12" color="surface-variant" variant="tonal">
-                <v-card-text class="text-medium-emphasis text-caption white-text">
-                    Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three
-                    hours. If you must login now, you can also click "Forgot login password?" below to reset the login
-                    password.
-                </v-card-text>
-            </v-card>
-
             <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" type="submit">
                 Log In
             </CustomButtonComponent>

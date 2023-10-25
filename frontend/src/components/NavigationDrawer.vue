@@ -45,7 +45,13 @@
               </v-list-item>
             </template>
           </v-tooltip>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
+          <v-tooltip text="Admin stage" :open-on-hover="true">
+            <template v-slot:activator="{ props }">
+              <v-list-item prepend-icon="mdi-account" title="My Account" v-bind="props" value="account"
+                v-if="userRole === 'admin'">
+              </v-list-item>
+            </template>
+          </v-tooltip>
           <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -64,6 +70,7 @@ const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
 const userImage = computed(() => authUserStore.userImage)
 const monogram = computed(() => authUserStore.userMonogram)
+const userRole = computed(() => authUserStore.userRole)
 
 
 const goToHome = () => {
