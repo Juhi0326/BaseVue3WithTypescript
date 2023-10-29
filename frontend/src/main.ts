@@ -11,6 +11,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import AuthService from '../src/composables/services/useAuthService'
 
 const vuetify = createVuetify({
   theme: {
@@ -37,8 +38,15 @@ const vuetify = createVuetify({
   },
 })
 
+
+
 createApp(App)
 .use(vuetify)
 .use(router)
 .use(createPinia())
 .mount('#app')
+
+AuthService.init()
+
+
+

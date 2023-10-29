@@ -1,9 +1,16 @@
 import axios from "axios";
 import loginInterface from '../interfaces/useLoginInterface';
+import userInterface from '../interfaces/useUserInterface'
+import { useAuthUserStore } from '../../stores/user';
+import { Store, PiniaCustomStateProperties } from "pinia";
 
 const API_URL = "http://localhost:8081/users/";
+let authUserStore: Store<"AuthUserStore", { initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }, { userName: (state: { initialState: { status: { loggedIn: boolean; }; user: { email: string; password: string; resetLink?: string | undefined; role: string; userName: string; cart?: Object[] | undefined; userImage?: string | undefined; accessToken: string; }; } | { status: { loggedIn: boolean; }; user: null; }; } & PiniaCustomStateProperties<{ initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }>) => string | undefined; userImage: (state: { initialState: { status: { loggedIn: boolean; }; user: { email: string; password: string; resetLink?: string | undefined; role: string; userName: string; cart?: Object[] | undefined; userImage?: string | undefined; accessToken: string; }; } | { status: { loggedIn: boolean; }; user: null; }; } & PiniaCustomStateProperties<{ initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }>) => string | undefined; userRole: (state: { initialState: { status: { loggedIn: boolean; }; user: { email: string; password: string; resetLink?: string | undefined; role: string; userName: string; cart?: Object[] | undefined; userImage?: string | undefined; accessToken: string; }; } | { status: { loggedIn: boolean; }; user: null; }; } & PiniaCustomStateProperties<{ initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }>) => string | undefined; userMonogram: (state: { initialState: { status: { loggedIn: boolean; }; user: { email: string; password: string; resetLink?: string | undefined; role: string; userName: string; cart?: Object[] | undefined; userImage?: string | undefined; accessToken: string; }; } | { status: { loggedIn: boolean; }; user: null; }; } & PiniaCustomStateProperties<{ initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }>) => string; isLoggedIn: (state: { initialState: { status: { loggedIn: boolean; }; user: { email: string; password: string; resetLink?: string | undefined; role: string; userName: string; cart?: Object[] | undefined; userImage?: string | undefined; accessToken: string; }; } | { status: { loggedIn: boolean; }; user: null; }; } & PiniaCustomStateProperties<{ initialState: { status: { loggedIn: boolean; }; user: userInterface; } | { status: { loggedIn: boolean; }; user: null; }; }>) => boolean; }, { login: (state: { initialState: { status: { loggedIn: boolean; }; user: userInterface | null; }; }, loginData: { email: string; password: string; }) => Promise<void>; logOut(): void; updateState: (state: { initialState: { status: { loggedIn: boolean; }; user: userInterface | null; }; }, newState: { status: { loggedIn: boolean; }; user: userInterface | null; }) => void; }> | undefined = undefined
 
 class AuthService {
+  init() {
+    authUserStore = useAuthUserStore();
+  }
   async login(user: loginInterface) {
     try {
       const response = await axios.post(API_URL + "login", {
@@ -54,6 +61,14 @@ class AuthService {
       console.error("Error", error);
       throw error;
     }
+  }
+  getUser() :userInterface | null {
+    if (authUserStore) {
+      return authUserStore.$state.initialState.user  
+    } else {
+      return null
+    }
+        
   }
 }
 

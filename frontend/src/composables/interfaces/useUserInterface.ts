@@ -1,12 +1,12 @@
 interface User {
-    email: String,
-    password: String,
-    resetLink?: String,
-    role: String,
-    userName: String,
+    email: string,
+    password: string,
+    resetLink?: string,
+    role: string,
+    userName: string,
     cart?: Array<Object>,
-    userImage?: String,
-    accessToken: String,
+    userImage?: string,
+    accessToken: string,
   }
 
   export default User
