@@ -7,7 +7,7 @@
 
       <template v-slot:actions>
         <v-btn color="aliceblue" variant="text" @click="closeSnackbar">
-          Close
+          Bezár
         </v-btn>
       </template>
     </v-snackbar>

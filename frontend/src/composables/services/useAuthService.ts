@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import loginInterface from '../interfaces/useLoginInterface';
 import userInterface from '../interfaces/useUserInterface'
 import { useAuthUserStore } from '../../stores/user';
@@ -43,9 +43,15 @@ class AuthService {
       const response = await axios.post(API_URL + "reset-password", { email });
       return response.data;
     } catch (error) {
-      // Handle error
-      console.error("Error", error);
-      throw error;
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          const errorMessage = axiosError.response.data as string;
+          throw new Error(errorMessage)
+        }
+      } else {
+        console.log(error);
+      }
     }
   }
 

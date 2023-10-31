@@ -5,11 +5,14 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL, 
     pass: process.env.EMAIL_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 })
 
 const getPasswordResetURL = (user, token) =>
-  `http://localhost:8080/users/addNewPassword/${user._id}/${token}`
+  `http://localhost:8081/users/addNewPassword/${user._id}/${token}`
 
 const resetPasswordTemplate = (user, url) => {
   const from = 'NOREPLY'
