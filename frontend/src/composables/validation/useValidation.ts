@@ -6,3 +6,7 @@ export const emailRules = {
 export const requiredRules = {
     required: (value: string) => !!value || 'A mező kitöltése kötelező!',
 }
+
+export const dangerousCharactersRules = {
+    dangerousCharacter: (value: string) => /<|>/.test(value) && 'tiltott karakter!'
+}
