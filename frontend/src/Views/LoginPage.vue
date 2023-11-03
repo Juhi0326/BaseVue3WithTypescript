@@ -17,7 +17,14 @@
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be a jelszavad"
                 prepend-inner-icon="mdi-lock-outline" variant="outlined"
                 @click:append-inner="visible = !visible"></v-text-field>
-            <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" type="submit">
+            <CustomButtonComponent 
+                block 
+                class="mb-8" 
+                color="aliceblue" 
+                size="large" 
+                variant="tonal" 
+                type="submit"
+                :disabled="email === ''||password === ''">
                 Log In
             </CustomButtonComponent>
 
