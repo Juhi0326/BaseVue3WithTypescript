@@ -3,7 +3,7 @@
     <v-row justify="center" >
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          :rules="[emailRules.required, emailRules.regex]"
+          :rules="[requiredRules.required, emailRules.regex]"
           clearable
           label="Email"
         ></v-text-field>
