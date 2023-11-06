@@ -15,12 +15,17 @@
                     label="Email">
             </v-text-field>
 
+            <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+                <span class="text"></span>
+                <router-link class="r-link" to='/reset-password-email'>Elfelejtetted a jelszavadat?</router-link>
+            </div>
+
             <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be a jelszavad"
                 prepend-inner-icon="mdi-lock-outline" variant="outlined"
                 :rules="[
                     requiredRules.required,
-                    dangerousCharactersRules.dangerousCharacter, 
+                    dangerousCharactersRules.dangerousCharacter
                     ]"
                 @click:append-inner="visible = !visible"
                 label="Jelszó"></v-text-field>
@@ -36,7 +41,7 @@
             </CustomButtonComponent>
 
             <v-card-text class="text-center">
-                <router-link class="r-link" to='/register'>Regisztrálj most!</router-link>
+                <router-link class="r-link" to='/register'>Ha még nem regisztráltál, regisztrálj most!</router-link>
             </v-card-text>
         </v-card>
 

@@ -8,5 +8,5 @@ export const requiredRules = {
 }
 
 export const dangerousCharactersRules = {
-    dangerousCharacter: (value: string) => /<|>/.test(value) && 'tiltott karakter!'
+    dangerousCharacter: (value: string) => !/<|>/.test(value) || 'tiltott karakter!'
 }
