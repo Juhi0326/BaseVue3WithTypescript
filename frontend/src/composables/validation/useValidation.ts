@@ -10,3 +10,7 @@ export const requiredRules = {
 export const dangerousCharactersRules = {
     dangerousCharacter: (value: string) => !/<|>/.test(value) || 'tiltott karakter!'
 }
+
+export const avatarRules = {
+    tooBigFile: (value: any) => !value || !value.length || value[0].size < 2000000 || 'A feltölthető kép maximális mérete 2 MB!'
+}
