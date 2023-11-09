@@ -21,7 +21,7 @@
                                     mdi-help-circle
                                 </v-icon>
                             </template>
-                            Segítség a felhasználónév megadásához
+                            A felhasználónév maximum 64 karakter hosszú lehet.
                         </v-tooltip>
                     </v-col>
                 </v-row>
@@ -92,7 +92,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="11">
-                        <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp"
+                        <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp, image/jpg,"
                             variant="outlined" :rules="[avatarRules.tooBigFile]">
                         </v-file-input>
                     </v-col>
@@ -103,7 +103,7 @@
                                     mdi-help-circle
                                 </v-icon>
                             </template>
-                            segítség a file feltöltéshez
+                            Az alábbi kiterjesztésű file-okat töltheted fel: png, bmp, jpeg és jpg. A maximális méret 4 MB.
                         </v-tooltip>
                     </v-col>
                 </v-row>

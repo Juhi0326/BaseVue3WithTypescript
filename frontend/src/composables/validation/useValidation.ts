@@ -12,5 +12,5 @@ export const dangerousCharactersRules = {
 }
 
 export const avatarRules = {
-    tooBigFile: (value: any) => !value || !value.length || value[0].size < 2000000 || 'A feltölthető kép maximális mérete 2 MB!'
+    tooBigFile: (value: any) => !value || !value.length || value[0].size < 4000000 || 'A feltölthető kép maximális mérete 4 MB!'
 }
