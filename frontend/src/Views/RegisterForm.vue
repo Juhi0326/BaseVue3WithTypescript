@@ -7,14 +7,14 @@
                     <v-card-title class="mb-12">Regisztráció</v-card-title>
                 </v-img>
                 <v-row>
-                    <v-col cols="10">
+                    <v-col cols="11">
                         <v-text-field v-model="userName" label="Felhasználónév" class="mt-12 custom-background"
                             variant="outlined"
                             :rules="[requiredRules.required, dangerousCharactersRules.dangerousCharacter]"
                             prepend-inner-icon="mdi-account-outline" density="compact" ref="refUserName">
                         </v-text-field>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="1">
                         <v-tooltip top>
                             <template v-slot:activator="{ props }">
                                 <v-icon v-bind="props" class="mt-14">
@@ -26,47 +26,50 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="10">
+                    <v-col cols="11">
                         <v-text-field v-model="email" class="custom-background" density="compact" placeholder="Email cím"
                             prepend-inner-icon="mdi-email-outline" variant="outlined" label="Email" ref="refEmail"
                             :rules="[requiredRules.required, emailRules.regex]">
                         </v-text-field>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="1">
                         <v-tooltip top>
                             <template v-slot:activator="{ props }">
                                 <v-icon v-bind="props" class="mt-2">
                                     mdi-help-circle
                                 </v-icon>
                             </template>
-                            Segítség az emailhez
+                            Az emailnek az általános email szabványnak kell megfelelnie.
                         </v-tooltip>
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="10">
+                    <v-col cols="11">
                         <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                             :type="visible ? 'text' : 'password'" density="compact" placeholder="Add meg az új a jelszavad"
                             prepend-inner-icon="mdi-lock-outline" variant="outlined"
-                            @click:append-inner="visible = !visible" label="Jelszó"
-                            :rules="[requiredRules.required, dangerousCharactersRules.dangerousCharacter]"
-                            ref="refPassword">
+                            @click:append-inner="visible = !visible" label="Jelszó" :rules="[
+                                requiredRules.required,
+                                dangerousCharactersRules.dangerousCharacter,
+                                passwordMatch2 || 'A két beírt jelszónak egyeznie kell!'
+                            ]" ref="refPassword">
                             <!-- Vuetify tooltip a kérdőjel ikonhoz -->
                         </v-text-field>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="1">
                         <v-tooltip top>
                             <template v-slot:activator="{ props }">
                                 <v-icon v-bind="props" class="mt-2">
                                     mdi-help-circle
                                 </v-icon>
                             </template>
-                            Segítség a jelszóhoz
+                            A jelszó minimum 6 maximum 20 karaktert tartalmazhat, szerepelnie kell benne legalább egy
+                            nagybetűnek, egy kisbetűnek, egy számnak és egy speciális karakternek.
                         </v-tooltip>
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="10">
+                    <v-col cols="11">
                         <v-text-field v-model="password2" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                             :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be újra a jelszavad"
                             prepend-inner-icon="mdi-lock-outline" variant="outlined"
@@ -76,7 +79,7 @@
                             ]" validate-on="input lazy" ref="refPassword2">
                         </v-text-field>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="1">
                         <v-tooltip top>
                             <template v-slot:activator="{ props }">
                                 <v-icon v-bind="props" class="mt-2">
@@ -88,16 +91,12 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols="10">
-                        <v-file-input 
-                        v-model="fileInput" 
-                        label="File feltöltés"
-                        accept="image/png, image/jpeg, image/bmp"
-                        variant="outlined"
-                        :rules="[avatarRules.tooBigFile]">
-                    </v-file-input>
+                    <v-col cols="11">
+                        <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp"
+                            variant="outlined" :rules="[avatarRules.tooBigFile]">
+                        </v-file-input>
                     </v-col>
-                    <v-col cols="2">
+                    <v-col cols="1">
                         <v-tooltip top>
                             <template v-slot:activator="{ props }">
                                 <v-icon v-bind="props" class="mt-2">
@@ -137,6 +136,7 @@ const password = ref('')
 const password2 = ref('')
 const formValidity = ref(false)
 const passwordMatch = ref(true)
+const passwordMatch2 = ref(true)
 const fileInput = ref([])
 const refUserName = ref<HTMLFormElement | null>(null);
 const refEmail = ref<HTMLFormElement | null>(null);
@@ -145,7 +145,15 @@ const refPassword2 = ref<HTMLFormElement | null>(null);
 
 watch([password, password2], ([newPassword, newPassword2]) => {
     passwordMatch.value = newPassword === newPassword2;
-
+})
+watch([password, password2], ([newPassword, newPassword2]) => {
+    if (newPassword2 === '' && newPassword !== newPassword2) {
+        passwordMatch2.value = true
+    } else if (newPassword2 !== '' && newPassword !== newPassword2) {
+        passwordMatch2.value = false
+    } else {
+        passwordMatch2.value = true
+    }
 })
 
 onMounted(() => {
@@ -201,7 +209,7 @@ const handleRegisterForm = async () => {
         console.log(error)
         registrationError()
     }
-    
+
 }
 
 const openSnackbar = () => {
