@@ -43,53 +43,7 @@
                         </v-tooltip>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col cols="11">
-                        <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                            :type="visible ? 'text' : 'password'" density="compact" placeholder="Add meg az új a jelszavad"
-                            prepend-inner-icon="mdi-lock-outline" variant="outlined"
-                            @click:append-inner="visible = !visible" label="Jelszó" :rules="[
-                                requiredRules.required,
-                                dangerousCharactersRules.dangerousCharacter,
-                                passwordMatch2 || 'A két beírt jelszónak egyeznie kell!'
-                            ]" ref="refPassword">
-                            <!-- Vuetify tooltip a kérdőjel ikonhoz -->
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="1">
-                        <v-tooltip top>
-                            <template v-slot:activator="{ props }">
-                                <v-icon v-bind="props" class="mt-2">
-                                    mdi-help-circle
-                                </v-icon>
-                            </template>
-                            A jelszó minimum 6 maximum 20 karaktert tartalmazhat, szerepelnie kell benne legalább egy
-                            nagybetűnek, egy kisbetűnek, egy számnak és egy speciális karakternek.
-                        </v-tooltip>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="11">
-                        <v-text-field v-model="password2" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                            :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be újra a jelszavad"
-                            prepend-inner-icon="mdi-lock-outline" variant="outlined"
-                            @click:append-inner="visible = !visible" label="Jelszó újra" :rules="[
-                                passwordMatch ||
-                                'A két beírt jelszónak egyeznie kell!',
-                            ]" validate-on="input lazy" ref="refPassword2">
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="1">
-                        <v-tooltip top>
-                            <template v-slot:activator="{ props }">
-                                <v-icon v-bind="props" class="mt-2">
-                                    mdi-help-circle
-                                </v-icon>
-                            </template>
-                            A két jelszónak egyeznie kell!
-                        </v-tooltip>
-                    </v-col>
-                </v-row>
+                <PasswordInput :onPasswordChange="handlePasswordChange" :passwordMatch = "passwordMatch"/>
                 <v-row>
                     <v-col cols="11">
                         <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp, image/jpg,"
@@ -123,38 +77,27 @@
 <script setup lang="ts">
 import CustomForm from '../components/CustomForm.vue';
 import { emailRules, requiredRules, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import authService from '../composables/services/useAuthService'
 import { UseSnackBar } from '../stores/useSnackBar';
+import PasswordInput from '../components/PasswordInput.vue'
 
 const useSnackBar = UseSnackBar();
-const visible = ref(false)
 const email = ref('')
 const userName = ref('')
 const password = ref('')
-const password2 = ref('')
 const formValidity = ref(false)
 const passwordMatch = ref(true)
-const passwordMatch2 = ref(true)
 const fileInput = ref([])
 const refUserName = ref<HTMLFormElement | null>(null);
 const refEmail = ref<HTMLFormElement | null>(null);
 const refPassword = ref<HTMLFormElement | null>(null);
 const refPassword2 = ref<HTMLFormElement | null>(null);
 
-watch([password, password2], ([newPassword, newPassword2]) => {
-    passwordMatch.value = newPassword === newPassword2;
-})
-watch([password, password2], ([newPassword, newPassword2]) => {
-    if (newPassword2 === '' && newPassword !== newPassword2) {
-        passwordMatch2.value = true
-    } else if (newPassword2 !== '' && newPassword !== newPassword2) {
-        passwordMatch2.value = false
-    } else {
-        passwordMatch2.value = true
-    }
-})
+const handlePasswordChange = (newPassword: string) => {
+    password.value = newPassword;
+};
 
 onMounted(() => {
     if (refUserName.value) {
@@ -178,15 +121,12 @@ const clearForm = () => {
     if (refPassword2.value) {
         refPassword2.value.reset()
     }
-
 }
-
 
 const submit = () => {
     handleRegisterForm()
     clearForm()
 }
-
 
 const handleRegisterForm = async () => {
     const user = new FormData();
@@ -209,7 +149,6 @@ const handleRegisterForm = async () => {
         console.log(error)
         registrationError()
     }
-
 }
 
 const openSnackbar = () => {
@@ -231,8 +170,6 @@ const registrationError = () => {
         }
     })
 }
-
-
 
 </script>
  
