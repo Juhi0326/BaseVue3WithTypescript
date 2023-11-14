@@ -49,7 +49,7 @@
 </template>
   
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, defineExpose } from 'vue';
 import { requiredRules, dangerousCharactersRules } from '../composables/validation/useValidation'
 
 const password = ref('');
@@ -63,6 +63,19 @@ const refPassword2 = ref<HTMLFormElement | null>(null);
 const emitPasswordChange = () => {
     onPasswordChange(password.value);
 };
+
+const clearForm = () => {
+    if (refPassword.value) {
+        refPassword.value.reset()
+    }
+    if (refPassword2.value) {
+        refPassword2.value.reset()
+    }
+}
+
+defineExpose({
+    clearForm
+  })
 
 watch([password, password2], ([newPassword, newPassword2]) => {
     passwordMatch.value = newPassword === newPassword2;
@@ -78,5 +91,7 @@ watch([password, password2], ([newPassword, newPassword2]) => {
 })
 
 const { onPasswordChange } = defineProps(['onPasswordChange']);
+
+
 </script>
   

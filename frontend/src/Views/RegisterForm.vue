@@ -43,7 +43,11 @@
                         </v-tooltip>
                     </v-col>
                 </v-row>
-                <PasswordInput :onPasswordChange="handlePasswordChange" :passwordMatch = "passwordMatch"/>
+                <PasswordInput 
+                ref="passwordInput" 
+                :onPasswordChange="handlePasswordChange" 
+                :passwordMatch = "passwordMatch"
+                />
                 <v-row>
                     <v-col cols="11">
                         <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp, image/jpg,"
@@ -94,6 +98,7 @@ const refUserName = ref<HTMLFormElement | null>(null);
 const refEmail = ref<HTMLFormElement | null>(null);
 const refPassword = ref<HTMLFormElement | null>(null);
 const refPassword2 = ref<HTMLFormElement | null>(null);
+const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
 
 const handlePasswordChange = (newPassword: string) => {
     password.value = newPassword;
@@ -121,6 +126,10 @@ const clearForm = () => {
     if (refPassword2.value) {
         refPassword2.value.reset()
     }
+    if (passwordInput.value) {
+        passwordInput.value.clearForm()
+    }
+    
 }
 
 const submit = () => {
