@@ -8,15 +8,15 @@
                         <v-card-title class="mb-12">Új jelszó megadása</v-card-title>
                     </v-img>
                     <br>
-                    <PasswordInput class="mt-6" 
-                    ref="passwordInput2" 
-                    :onPasswordChange="handlePasswordChange" 
-                    :passwordMatch="passwordMatch"  
-                    />
+                    <PasswordInput class="mt-6" ref="passwordInput2" :onPasswordChange="handlePasswordChange"
+                        :passwordMatch="passwordMatch" />
                     <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" @click="submit"
                         :disabled="!formValidity || !passwordMatch">
                         Megadom az új jelszót
                     </CustomButtonComponent>
+                    <v-card-text class="text-center" v-if="PasswordChanged">
+                        <router-link class="r-link" to='/login'>Most már beléphetsz az új jelszavaddal!!</router-link>
+                    </v-card-text>
                 </v-card>
             </v-slot>
         </CustomForm>
@@ -40,6 +40,7 @@ const passwordMatch = ref(true)
 const id = ref('')
 const token = ref('')
 const passwordInput2 = ref<InstanceType<typeof PasswordInput> | null>(null)
+const PasswordChanged = ref(false)
 
 onMounted(() => {
     const route = useRoute();
@@ -58,6 +59,7 @@ const handleNewPasswordForm = async () => {
         console.log(response)
         console.log('ez a password típusa: ' + typeof password.value)
         openSnackbar()
+        PasswordChanged.value = true
     } catch (error) {
         console.log(error)
         console.log('ez a password típusa: ' + typeof password.value)

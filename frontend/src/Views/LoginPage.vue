@@ -122,10 +122,6 @@ const submit = () => {
     background-color: aliceblue;
 }
 
-.r-link {
-    color: #FF8A80;
-}
-
 .text {
     color: aliceblue;
 }
