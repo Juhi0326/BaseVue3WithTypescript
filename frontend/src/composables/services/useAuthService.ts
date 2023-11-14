@@ -55,7 +55,7 @@ class AuthService {
     }
   }
 
-  async receiveNewPassword(id: string, token: string, password: string) {
+  async receiveNewPassword(id: string, token: string, password: { password: string }) {
     try {
       const response = await axios.post(
         `${API_URL}receive_new_password/${id}/${token}`,

@@ -292,14 +292,15 @@ exports.receiveNewPassword = (req, res) => {
     Min 1 uppercase character
     Min 1 number
     Min 1 special characters */
+  const { password } = req.body
   const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ -/:-@\[-`{-~]).{6,10}$/g
-  if (pattern.test(req.body.password) === false) {
+  if (pattern.test(password) === false) {
     return res.status(409).json({
       message: 'invalid password',
     });
   }
   const { userId, token } = req.params
-  const { password } = req.body
+  
   User.findOne({ _id: userId })
     .then(user => {
       const secret = user.password + "-" + user.createdAt
