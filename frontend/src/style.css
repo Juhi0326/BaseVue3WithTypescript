@@ -26,6 +26,9 @@ a:hover {
 .r-link {
   color: #FF8A80;
 }
+.r-link-primary {
+  color: #00838F;
+}
 
 body {
   margin-top: 0px;
