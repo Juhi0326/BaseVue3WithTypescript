@@ -37,7 +37,7 @@
                 variant="tonal" 
                 @click="submit"
                 :disabled="email === ''||password === ''">
-                Log In
+                Belépés
             </CustomButtonComponent>
 
             <v-card-text class="text-center">

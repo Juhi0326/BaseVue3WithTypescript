@@ -23,6 +23,9 @@
                     :disabled="!formValidity" @click="submit">
                     Küldés
                 </CustomButtonComponent>
+                <v-card-text class="text-center">
+                        <router-link class="r-link" to='/login'>Hopp eszembe jutott, visszamegyek, belépek!</router-link>
+                    </v-card-text>
             </v-card>
         </v-slot>
     </CustomForm>
