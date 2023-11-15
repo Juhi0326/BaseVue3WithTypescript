@@ -43,7 +43,7 @@
 
 
         <v-list density="compact" nav class="mt-3 ml-3">
-          <v-tooltip text="Home" :open-on-hover="true">
+          <v-tooltip text="Home" :open-on-hover="true" v-if="currentRoute !== '/'">
             <template v-slot:activator="{ props }">
               <v-list-item prepend-icon="mdi-home-city" v-bind="props" title="Home" value="home" @click="goToHome">
               </v-list-item>
@@ -82,11 +82,12 @@ const loggedIn = computed(() => authUserStore.isLoggedIn)
 const userImage = computed(() => authUserStore.userImage)
 const monogram = computed(() => authUserStore.userMonogram)
 const userRole = computed(() => authUserStore.userRole)
+const currentRoute = computed(() => router.currentRoute.value.fullPath)
+
 const items = ref([
   { title: "Profil áttekintése", route: "/" },
   { title: "Rendeléseim", route: "/" },
 ])
-
 
 const goToHome = () => {
   router.push('/')
@@ -94,6 +95,7 @@ const goToHome = () => {
 const goToHelloWorld = () => {
   router.push('/hello-world')
 }
+
 </script>
 
 <style scoped>
