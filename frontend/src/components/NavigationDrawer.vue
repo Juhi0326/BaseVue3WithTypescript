@@ -82,10 +82,11 @@ const loggedIn = computed(() => authUserStore.isLoggedIn)
 const userImage = computed(() => authUserStore.userImage)
 const monogram = computed(() => authUserStore.userMonogram)
 const userRole = computed(() => authUserStore.userRole)
+const userId = computed( ()=> authUserStore.userId)
 const currentRoute = computed(() => router.currentRoute.value.fullPath)
 
 const items = ref([
-  { title: "Profil áttekintése", route: "/" },
+  { title: "Profil áttekintése", route: "mydata/" + userId},
   { title: "Rendeléseim", route: "/" },
 ])
 

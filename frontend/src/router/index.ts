@@ -33,6 +33,13 @@ const routes: RouteRecordRaw[] = [
     component: AdminDashboard,
     meta: { authorize: ["admin"] },
   },
+  {
+    path: '/mydata/:id',
+    name: "MyData",
+    component: () =>
+      import(/* webpackChunkName: "MyData" */ '../Views/CustomerData.vue'),
+    meta: { authorize: ['user', 'moderator', 'admin'] }
+  },
 ];
 
 interface RouteMeta {

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" :max-width="options.width" :style="{ zIndex: options.zIndex }" @keydown.esc="cancel">
     <v-card>
-      <v-toolbar dark color="red" dense flat>
+      <v-toolbar dark color="primary" dense flat>
         <v-toolbar-title>
           {{ title }}
         </v-toolbar-title>
@@ -34,7 +34,7 @@ const title = ref('')
 const message = ref('')
 const dialog = ref(false)
 const options = ref({
-  color: "red",
+  color: "primary",
   width: 400,
   zIndex: 200,
   noconfirm: false,

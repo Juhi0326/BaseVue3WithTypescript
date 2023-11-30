@@ -8,7 +8,7 @@
                         <v-card-title class="mb-12">Új jelszó megadása</v-card-title>
                     </v-img>
                     <br>
-                    <PasswordInput class="mt-6" ref="passwordInput2" :onPasswordChange="handlePasswordChange"
+                    <PasswordInput :mandatory=true class="mt-6" ref="passwordInput2" :onPasswordChange="handlePasswordChange"
                         :passwordMatch="passwordMatch" />
                     <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" @click="submit"
                         :disabled="!formValidity || !passwordMatch">

@@ -34,6 +34,11 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
         return state.initialState.user.role;
       }
     },
+    userId: (state) => {
+      if (state.initialState.user) {
+        return state.initialState.user.userId
+      }
+    },
     userMonogram: (state) => {
       let monogram = ''
       if (state.initialState.user) {

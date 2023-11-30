@@ -7,6 +7,7 @@ interface User {
     cart?: Array<Object>,
     userImage?: string,
     accessToken: string,
+    userId: string
   }
 
   export default User

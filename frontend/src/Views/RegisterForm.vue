@@ -44,6 +44,7 @@
                     </v-col>
                 </v-row>
                 <PasswordInput 
+                :mandatory=true
                 ref="passwordInput" 
                 :onPasswordChange="handlePasswordChange" 
                 :passwordMatch = "passwordMatch"
