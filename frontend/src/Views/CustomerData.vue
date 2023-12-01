@@ -11,7 +11,7 @@
         </v-card-subtitle>
 
         <v-card-actions>
-            <CustomButtonComponent color="primary" dark @click="toggleShow">
+            <CustomButtonComponent color=#FF8A80 @click="toggleShow">
                 {{ Text }}
             </CustomButtonComponent>
             <v-spacer></v-spacer>
