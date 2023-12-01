@@ -133,7 +133,7 @@ const formValidation = computed(() => {
     email.value ? (emailCount.value = 1) : (emailCount.value = 0);
     password.value ? (passwordCount.value = 1) : (passwordCount.value = 0);
     if (fileInput.value) {
-        fileInput.value.length ? (FILECount.value = 1) : (FILECount.value = 0);
+        FILECount.value = 1
     } else {
         FILECount.value = 0
     }
@@ -173,7 +173,7 @@ const changData = async () => {
     if (password.value !== '') {
         user.append("password", password.value);
     }
-    if (fileInput.value.length) {
+    if (fileInput.value) {
         user.append("userImage", fileInput.value[0]);
     }
 
