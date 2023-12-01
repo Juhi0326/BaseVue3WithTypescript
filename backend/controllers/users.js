@@ -198,10 +198,6 @@ exports.user_get_by_id = (req, res, next) => {
         updatedAt: doc.updatedAt,
         userImage: doc.imagePath,
         userId: doc._id,
-        request: {
-          type: 'GET',
-          url: 'http://localhost:8081/users/' + doc._id,
-        }
       });
     })
     .catch((err) => {

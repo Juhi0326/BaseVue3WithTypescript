@@ -113,7 +113,9 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
         user: userInterface | null;
       }
     ) => {
+      console.log('ez a new state, ami beérkezik: ' + JSON.stringify(newState))
+      console.log('és amúgy ez a state.initialState, ami beérkezik: ' + JSON.stringify(state.initialState))
       state.initialState = newState;
-    },
+    },    
   },
 });

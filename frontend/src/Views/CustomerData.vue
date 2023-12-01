@@ -105,14 +105,12 @@ import { ref, computed } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import { emailRules2, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
 import CustomForm from '../components/CustomForm.vue';
-// import { UseSnackBar } from '../stores/useSnackBar';
+import { UseSnackBar } from '../stores/useSnackBar';
 import PasswordInput from '../components/PasswordInput.vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import useUserService from '../composables/services/useUserService';
-import authService from '../composables/services/useAuthService'
 
-
-// const useSnackBar = UseSnackBar();
+const useSnackBar = UseSnackBar();
 const show = ref(false)
 const passwordMatch = ref(true)
 const email = ref('')
@@ -166,13 +164,13 @@ const changData = async () => {
         user.append("userName", userName.value);
     }
     if (email.value !== '') {
-        user.append("userName", email.value);
+        user.append("email", email.value);
     }
     if (password.value !== '') {
-        user.append("userName", password.value);
+        user.append("password", password.value);
     }
     if (fileInput.value.length) {
-        user.append("userName", fileInput.value[0]);
+        user.append("userImage", fileInput.value[0]);
     }
 
     try {
@@ -180,16 +178,48 @@ const changData = async () => {
         if (id) {
             const response = await useUserService.changeMyDataById(id, user)
             console.log(response)
-        }
-        try {
-            authService.getUser()
+            try {
+            const updatedUser = await useUserService.getUserById(id)
+            let permanentState = JSON.parse(JSON.stringify(authUserStore.$state.initialState));
+            if (permanentState.user) {
+                permanentState.user.userName = updatedUser?.data.userName
+                permanentState.user.email = updatedUser?.data.email
+                permanentState.user.userImage = updatedUser?.data.userImage
+            }
+            authUserStore.updateState(authUserStore.$state, permanentState )
+            
+            openSnackbar()
         } catch (error) {
             console.log(error)
+            SnackbarError()
         }
+        }
+
         
     } catch (error) {
         console.log(error)
+        SnackbarError()
     }
+}
+
+const openSnackbar = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Az adataid módosultak!',
+            color: 'success',
+        }
+    })
+}
+
+const SnackbarError = () => {
+    useSnackBar.updateState(useSnackBar.$state, {
+        snackbar: {
+            visible: true,
+            text: 'Az adatok módosítása nem sikerült!',
+            color: 'error',
+        }
+    })
 }
 
 const handlePasswordChange = (newPassword: string) => {
