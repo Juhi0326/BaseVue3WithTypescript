@@ -48,8 +48,7 @@
                             <v-col cols="11">
                                 <v-text-field v-model="email" class="custom-background" density="compact"
                                     placeholder="Email cím" prepend-inner-icon="mdi-email-outline" variant="outlined"
-                                    label="Email" ref="refEmail" :rules="[emailRules2.regex]" 
-                                    >
+                                    label="Email" ref="refEmail" :rules="[emailRules2.regex]">
                                 </v-text-field>
                             </v-col>
                             <v-col cols="1">
@@ -70,7 +69,7 @@
                             <v-col cols="11">
                                 <v-file-input v-model="fileInput" label="File feltöltés"
                                     accept="image/png, image/jpeg, image/bmp, image/jpg," variant="outlined"
-                                    :rules="[avatarRules.tooBigFile]">
+                                    :rules="[avatarRules.tooBigFile]" ref="refFileInput">
                                 </v-file-input>
                             </v-col>
                             <v-col cols="1">
@@ -87,8 +86,8 @@
                         </v-row>
                         <v-row>
                             <v-col>
-                                <CustomButtonComponent class="ma-3" color="primary"
-                                    :dark="formValidity" type="submit" :disabled="!formValidation">
+                                <CustomButtonComponent class="ma-3" color="primary" :dark="formValidity" type="submit"
+                                    :disabled="!formValidation">
                                     Elküldöm a módosítást!
                                 </CustomButtonComponent>
                             </v-col>
@@ -109,6 +108,7 @@ import { UseSnackBar } from '../stores/useSnackBar';
 import PasswordInput from '../components/PasswordInput.vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import useUserService from '../composables/services/useUserService';
+const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
 
 const useSnackBar = UseSnackBar();
 const show = ref(false)
@@ -124,24 +124,28 @@ const emailCount = ref(0)
 const passwordCount = ref(0)
 const FILECount = ref(0)
 const refEmail = ref<HTMLFormElement | null>(null);
-
+const refUserName = ref<HTMLFormElement | null>(null);
+const refFileInput = ref<HTMLFormElement | null>(null);
 const authUserStore = useAuthUserStore();
-
 const formValidation = computed(() => {
 
-      userName.value !== "" ? (userNameCount.value = 1) : (userNameCount.value = 0);
-      email.value !== "" ? (emailCount.value = 1) : (emailCount.value = 0);
-      password.value !== "" ? (passwordCount.value = 1) : (passwordCount.value = 0);
-      fileInput.value.length ? (FILECount.value = 1) : (FILECount.value = 0);
+    userName.value ? (userNameCount.value = 1) : (userNameCount.value = 0);
+    email.value ? (emailCount.value = 1) : (emailCount.value = 0);
+    password.value ? (passwordCount.value = 1) : (passwordCount.value = 0);
+    if (fileInput.value) {
+        fileInput.value.length ? (FILECount.value = 1) : (FILECount.value = 0);
+    } else {
+        FILECount.value = 0
+    }
 
-      fieldCounter.value =
+    fieldCounter.value =
         userNameCount.value + emailCount.value + passwordCount.value + FILECount.value;
 
-      if (fieldCounter.value > 0 && formValidity.value != false) {
+    if (fieldCounter.value > 0 && formValidity.value != false) {
         return true;
-      } else {
+    } else {
         return false;
-      }
+    }
 })
 const userImage = computed(() => authUserStore.userImage)
 const user = computed(() => authUserStore.initialState.user)
@@ -179,23 +183,23 @@ const changData = async () => {
             const response = await useUserService.changeMyDataById(id, user)
             console.log(response)
             try {
-            const updatedUser = await useUserService.getUserById(id)
-            let permanentState = JSON.parse(JSON.stringify(authUserStore.$state.initialState));
-            if (permanentState.user) {
-                permanentState.user.userName = updatedUser?.data.userName
-                permanentState.user.email = updatedUser?.data.email
-                permanentState.user.userImage = updatedUser?.data.userImage
+                const updatedUser = await useUserService.getUserById(id)
+                let permanentState = JSON.parse(JSON.stringify(authUserStore.$state.initialState));
+                if (permanentState.user) {
+                    permanentState.user.userName = updatedUser?.data.userName
+                    permanentState.user.email = updatedUser?.data.email
+                    permanentState.user.userImage = updatedUser?.data.userImage
+                }
+                authUserStore.updateState(authUserStore.$state, permanentState)
+
+                openSnackbar()
+                clearForm()
+            } catch (error) {
+                console.log(error)
+                SnackbarError()
             }
-            authUserStore.updateState(authUserStore.$state, permanentState )
-            
-            openSnackbar()
-        } catch (error) {
-            console.log(error)
-            SnackbarError()
-        }
         }
 
-        
     } catch (error) {
         console.log(error)
         SnackbarError()
@@ -224,24 +228,17 @@ const SnackbarError = () => {
 
 const handlePasswordChange = (newPassword: string) => {
     password.value = newPassword
-
 };
 
-/* watch(() => email.value, (newText) => {
-  if ( newText === ''){
-    if (refEmail.value) {
-        console.log('megtörtént')
-        refEmail.value.reset()
-    } 
-  }
-}); */
-/* watch(() => password.value, (newText, oldText) => {
-  if (oldText !== '' && newText === ''){
-    if (refEmail.value) {
-        refEmail.value.resetValidation()
-    } 
-  }
-}) */
-
+const clearForm = () => {
+    refEmail.value?.reset()
+    refUserName.value?.reset()
+    passwordInput.value?.clearForm()
+    refFileInput.value?.reset()
+    userNameCount.value = 0
+    emailCount.value = 0
+    passwordCount.value = 0
+    FILECount.value = 0
+}
 
 </script>
