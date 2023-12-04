@@ -41,7 +41,6 @@ const logOut = async (titleProp: string, messageProp: string) => {
     try {
       authUserStore.logOut()
       openSnackbar()
-      router.push('/login')
     } catch (error) {
       logOutError()
     }
