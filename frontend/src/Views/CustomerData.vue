@@ -104,13 +104,12 @@ import { ref, computed } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import { emailRules2, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
 import CustomForm from '../components/CustomForm.vue';
-import { UseSnackBar } from '../stores/useSnackBar';
+import { setSnackBarMessage } from '../composables/useSnackBarMessages';
 import PasswordInput from '../components/PasswordInput.vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import useUserService from '../composables/services/useUserService';
 const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
 
-const useSnackBar = UseSnackBar();
 const show = ref(false)
 const passwordMatch = ref(true)
 const email = ref('')
@@ -132,12 +131,11 @@ const formValidation = computed(() => {
     userName.value ? (userNameCount.value = 1) : (userNameCount.value = 0);
     email.value ? (emailCount.value = 1) : (emailCount.value = 0);
     password.value ? (passwordCount.value = 1) : (passwordCount.value = 0);
-    if (fileInput.value[0]) {
-        FILECount.value = 1
+    if (Array.isArray(fileInput.value)) {
+        fileInput.value.length ? FILECount.value = 1 : FILECount.value = 0
     } else {
         FILECount.value = 0
     }
-
     fieldCounter.value =
         userNameCount.value + emailCount.value + passwordCount.value + FILECount.value;
 
@@ -178,7 +176,6 @@ const changData = async () => {
     }
 
     try {
-        console.log('ez az id: ' + id)
         if (id) {
             const response = await useUserService.changeMyDataById(id, user)
             console.log(response)
@@ -207,23 +204,11 @@ const changData = async () => {
 }
 
 const openSnackbar = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Az adataid módosultak!',
-            color: 'success',
-        }
-    })
+    setSnackBarMessage(true, 'az adatok módosultak')
 }
 
 const SnackbarError = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Az adatok módosítása nem sikerült!',
-            color: 'error',
-        }
-    })
+    setSnackBarMessage(false, 'Az adatok módosítása nem sikerült!')
 }
 
 const handlePasswordChange = (newPassword: string) => {

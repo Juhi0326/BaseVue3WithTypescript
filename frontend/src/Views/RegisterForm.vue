@@ -85,10 +85,9 @@ import { emailRules, requiredRules, dangerousCharactersRules, avatarRules } from
 import { onMounted, ref } from 'vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import authService from '../composables/services/useAuthService'
-import { UseSnackBar } from '../stores/useSnackBar';
+import { setSnackBarMessage } from '../composables/useSnackBarMessages';
 import PasswordInput from '../components/PasswordInput.vue'
 
-const useSnackBar = UseSnackBar();
 const email = ref('')
 const userName = ref('')
 const password = ref('')
@@ -162,23 +161,11 @@ const handleRegisterForm = async () => {
 }
 
 const openSnackbar = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Sikeres regisztráció!',
-            color: 'success',
-        }
-    })
+    setSnackBarMessage(true, 'Sikeres regisztráció!')
 }
 
 const registrationError = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Sikertelen regisztráció!',
-            color: 'error',
-        }
-    })
+    setSnackBarMessage(false, 'Sikertelen regisztráció!')
 }
 
 </script>

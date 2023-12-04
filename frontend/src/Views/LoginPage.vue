@@ -55,7 +55,7 @@ import { ref } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import router from "../router";
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
-import { UseSnackBar } from '../stores/useSnackBar';
+import { setSnackBarMessage } from '../composables/useSnackBarMessages';
 import CustomForm from '../components/CustomForm.vue';
 import { emailRules, requiredRules, dangerousCharactersRules } from '../composables/validation/useValidation'
 
@@ -63,7 +63,6 @@ const visible = ref(false)
 const email = ref('')
 const password = ref('')
 const authUserStore = useAuthUserStore();
-const useSnackBar = UseSnackBar();
 
 const clearForm = () => {
     email.value = ''
@@ -84,23 +83,11 @@ const login = async () => {
 };
 
 const openSnackbar = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Sikeres bejelentkezés!',
-            color: 'success',
-        }
-    })
+    setSnackBarMessage(true, 'Sikeres bejelentkezés!')
 }
 
 const loginError = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'Sikertelen bejelentkezés!',
-            color: 'error',
-        }
-    })
+    setSnackBarMessage(false, 'Sikertelen bejelentkezés!')
 }
 
 const goToHomePage = () => {

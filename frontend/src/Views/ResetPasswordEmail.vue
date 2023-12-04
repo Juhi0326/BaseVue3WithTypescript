@@ -36,13 +36,12 @@ import { ref } from 'vue'
 import authService from "../composables/services/useAuthService";
 import axios, { AxiosError } from "axios";
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
-import { UseSnackBar } from '../stores/useSnackBar';
+import { setSnackBarMessage } from '../composables/useSnackBarMessages';
 import CustomForm from '../components/CustomForm.vue';
 import { emailRules, requiredRules } from '../composables/validation/useValidation'
 
 const email = ref('')
 const errorMessage = ref('')
-const useSnackBar = UseSnackBar();
 const formValidity = ref(false)
 const emailValue = ref<HTMLFormElement | null>(null);
 
@@ -68,23 +67,11 @@ const sendEmail = async () => {
 }
 
 const openSnackbarSuccess = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'A jelszóigénylés sikeresen megtörtént!',
-            color: 'success',
-        }
-    })
+    setSnackBarMessage(true, 'A jelszóigénylés sikeresen megtörtént!')
 }
 
 const openSnackbarError = () => {
-    useSnackBar.updateState(useSnackBar.$state, {
-        snackbar: {
-            visible: true,
-            text: 'A jelszóigénylés nem sikerült!',
-            color: 'error',
-        }
-    })
+    setSnackBarMessage(false, 'A jelszóigénylés nem sikerült!')
 }
 
 const submit = () => {

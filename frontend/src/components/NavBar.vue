@@ -29,11 +29,10 @@ import NavigationDrawer from './NavigationDrawer.vue';
 import { useAuthUserStore } from '../stores/user';
 import { computed, ref } from 'vue'
 import router from "../router";
-import { UseSnackBar } from '../stores/useSnackBar';
+import { setSnackBarMessage } from '../composables/useSnackBarMessages';
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 
 const cofirm = ref<InstanceType<typeof ConfirmDialog> | null>(null)
-const useSnackBar = UseSnackBar();
 const authUserStore = useAuthUserStore();
 const loggedIn = computed(() => authUserStore.isLoggedIn)
 const logOut = async (titleProp: string, messageProp: string) => {
@@ -53,22 +52,10 @@ const logIn = () => {
 }
 
 const openSnackbar = () => {
-  useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'Sikeres kijelentkezés!',
-      color: 'success',
-    }
-  })
+  setSnackBarMessage(true, 'Sikeres kijelentkezés!')
 }
 
 const logOutError = () => {
-  useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'Sikertelen kijelentkezés!',
-      color: 'error',
-    }
-  })
+  setSnackBarMessage(false, 'Sikertelen kijelentkezés!')
 }
 </script>
