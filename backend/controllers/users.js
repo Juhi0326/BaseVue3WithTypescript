@@ -444,6 +444,12 @@ exports.change_user_myData_by_myUserId = async (req, res, next) => {
   const id = req.params.userId
   console.log(id)
   let hash = null
+  const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ -/:-@\[-`{-~]).{6,20}$/g
+  if (pattern.test(req.body.password) === false) {
+    return res.status(409).json({
+      message: 'invalid password',
+    });
+  }
   try {
     await User.findById(id).then((user) => {
       if (!user) {
