@@ -104,12 +104,13 @@ import { ref, computed } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import { emailRules2, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
 import CustomForm from '../components/CustomForm.vue';
-import { setSnackBarMessage } from '../composables/useSnackBarMessages';
+import { UseSnackBar } from '../stores/useSnackBar';
 import PasswordInput from '../components/PasswordInput.vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import useUserService from '../composables/services/useUserService';
-const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
 
+const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
+const useSnackBar = UseSnackBar();
 const show = ref(false)
 const passwordMatch = ref(true)
 const email = ref('')
@@ -204,11 +205,23 @@ const changData = async () => {
 }
 
 const openSnackbar = () => {
-    setSnackBarMessage(true, 'az adatok módosultak')
+    useSnackBar.updateState(useSnackBar.$state, {
+    snackbar: {
+      visible: true,
+      text: 'az adatok módosultak',
+      color: 'success',
+    }
+  })
 }
 
 const SnackbarError = () => {
-    setSnackBarMessage(false, 'Az adatok módosítása nem sikerült!')
+    useSnackBar.updateState(useSnackBar.$state, {
+    snackbar: {
+      visible: true,
+      text: 'Az adatok módosítása nem sikerült!',
+      color: 'error',
+    }
+  })
 }
 
 const handlePasswordChange = (newPassword: string) => {

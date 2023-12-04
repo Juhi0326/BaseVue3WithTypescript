@@ -55,10 +55,11 @@ import { ref } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import router from "../router";
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
-import { setSnackBarMessage } from '../composables/useSnackBarMessages';
+import { UseSnackBar } from '../stores/useSnackBar';
 import CustomForm from '../components/CustomForm.vue';
 import { emailRules, requiredRules, dangerousCharactersRules } from '../composables/validation/useValidation'
 
+const useSnackBar = UseSnackBar();
 const visible = ref(false)
 const email = ref('')
 const password = ref('')
@@ -83,11 +84,23 @@ const login = async () => {
 };
 
 const openSnackbar = () => {
-    setSnackBarMessage(true, 'Sikeres bejelentkezés!')
+    useSnackBar.updateState(useSnackBar.$state, {
+    snackbar: {
+      visible: true,
+      text: 'Sikeres bejelentkezés!',
+      color: 'success',
+    }
+  })
 }
 
 const loginError = () => {
-    setSnackBarMessage(false, 'Sikertelen bejelentkezés!')
+    useSnackBar.updateState(useSnackBar.$state, {
+    snackbar: {
+      visible: true,
+      text: 'Sikertelen bejelentkezés!',
+      color: 'error',
+    }
+  })
 }
 
 const goToHomePage = () => {
