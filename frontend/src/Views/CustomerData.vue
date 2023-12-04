@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import { emailRules2, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
 import CustomForm from '../components/CustomForm.vue';
