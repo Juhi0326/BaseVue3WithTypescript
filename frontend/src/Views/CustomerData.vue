@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuthUserStore } from '../stores/user';
 import { emailRules2, dangerousCharactersRules, avatarRules } from '../composables/validation/useValidation'
 import CustomForm from '../components/CustomForm.vue';
@@ -132,7 +132,7 @@ const formValidation = computed(() => {
     userName.value ? (userNameCount.value = 1) : (userNameCount.value = 0);
     email.value ? (emailCount.value = 1) : (emailCount.value = 0);
     password.value ? (passwordCount.value = 1) : (passwordCount.value = 0);
-    if (fileInput.value) {
+    if (fileInput.value[0]) {
         FILECount.value = 1
     } else {
         FILECount.value = 0
@@ -240,5 +240,9 @@ const clearForm = () => {
     passwordCount.value = 0
     FILECount.value = 0
 }
+
+onMounted(() => {
+  console.log('ez a fileInput: ' + fileInput.value)
+});
 
 </script>
