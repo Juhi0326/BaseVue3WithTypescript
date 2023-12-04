@@ -240,9 +240,4 @@ const clearForm = () => {
     passwordCount.value = 0
     FILECount.value = 0
 }
-
-onMounted(() => {
-  console.log('ez a fileInput: ' + fileInput.value)
-});
-
 </script>
