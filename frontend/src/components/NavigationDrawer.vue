@@ -26,7 +26,7 @@
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-tooltip text="User Profile 2" :open-on-hover="true" v-else>
+          <v-menu open-on-hover v-else location="end" offset="20">
             <template v-slot:activator="{ props }">
               <v-list-item class="ml-n1" v-bind="props">
                 <v-avatar color="red" size="36" :style="{
@@ -36,7 +36,18 @@
                 </v-avatar>
               </v-list-item>
             </template>
-          </v-tooltip>
+            <v-list>
+              <v-list-item v-for="(item, index) in items" :key="index">
+                
+                <v-list-item-title>
+                <router-link :to="item.route" class="r-link-primary">
+                  {{ item.title }}
+                </router-link>
+                </v-list-item-title>
+                <v-divider></v-divider>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-list>
 
         <v-divider class="mt-4" v-if="loggedIn"></v-divider>
