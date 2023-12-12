@@ -1,6 +1,6 @@
 <template>
 
-<CustomForm>
+<CustomForm @submit.prevent="submit">
         <v-slot>
             <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="600" rounded="lg" color='form'>
             <v-img class="align-end text-white" height="200" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
@@ -35,7 +35,7 @@
                 color="aliceblue" 
                 size="large" 
                 variant="tonal" 
-                @click="submit"
+                type="submit"
                 :disabled="email === ''||password === ''">
                 Belépés
             </CustomButtonComponent>
