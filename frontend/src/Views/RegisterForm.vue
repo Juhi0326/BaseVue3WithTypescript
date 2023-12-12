@@ -1,6 +1,6 @@
 <template>
     <ConfirmDialog ref="confirm"></ConfirmDialog>
-    <CustomForm v-model="formValidity">
+    <CustomForm v-model="formValidity" @submit.prevent="submit('Regisztráció', 'Biztosan regisztrálni szeretnél?')">
         <v-slot>
             <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="600" rounded="lg" color='form'>
                 <v-img class="align-end text-white" height="150" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
@@ -65,7 +65,7 @@
                     </v-col>
                 </v-row>
                 <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal"
-                    @click="submit('Regisztráció', 'Biztosan regisztrálni szeretnél?')"
+                    type="submit"
                     :disabled="!formValidity || !passwordMatch">
                     Regisztrálok
                 </CustomButtonComponent>
