@@ -3,6 +3,15 @@ import authService from "../composables/services/useAuthService";
 import axios, { AxiosError } from "axios";
 import userInterface from "../composables/interfaces/useUserInterface";
 
+interface StateParamInterface {
+    initialState: {
+      status: {
+        loggedIn: boolean;
+      };
+      user: userInterface | null;
+    }
+}
+
 const user: userInterface | null = JSON.parse(
   localStorage.getItem("user") as string
 );
@@ -59,14 +68,7 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
   
   actions: {
     login: async (
-      state: {
-        initialState: {
-          status: {
-            loggedIn: boolean;
-          };
-          user: userInterface | null;
-        };
-      },
+      state: StateParamInterface,
       loginData: { email: string; password: string }
     ) => {
       try {
@@ -98,14 +100,7 @@ export const useAuthUserStore = defineStore("AuthUserStore", {
       this.updateState(this.$state, newState); 
     },
     updateState: (
-      state: {
-        initialState: {
-          status: {
-            loggedIn: boolean;
-          };
-          user: userInterface | null;
-        };
-      },
+      state: StateParamInterface,
       newState: {
         status: {
           loggedIn: boolean;
