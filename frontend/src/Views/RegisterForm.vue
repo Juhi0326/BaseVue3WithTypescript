@@ -9,7 +9,7 @@
                 </v-img>
                 <v-row>
                     <v-col cols="11">
-                        <v-text-field v-model="userName" label="Felhasználónév" class="mt-12 custom-background"
+                        <v-text-field v-model="userName" label="Felhasználónév" class="mt-12"
                             variant="outlined"
                             :rules="[requiredRules.required, dangerousCharactersRules.dangerousCharacter]"
                             prepend-inner-icon="mdi-account-outline" density="compact" ref="refUserName">
@@ -28,7 +28,7 @@
                 </v-row>
                 <v-row>
                     <v-col cols="11">
-                        <v-text-field v-model="email" class="custom-background" density="compact" placeholder="Email cím"
+                        <v-text-field v-model="email" density="compact" placeholder="Email cím"
                             prepend-inner-icon="mdi-email-outline" variant="outlined" label="Email" ref="refEmail"
                             :rules="[requiredRules.required, emailRules.regex]">
                         </v-text-field>

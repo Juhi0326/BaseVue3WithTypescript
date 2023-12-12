@@ -6,8 +6,8 @@
             <v-img class="align-end text-white" height="200" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover>
                 <v-card-title class="mb-12">Bejelentkezés</v-card-title>
             </v-img>
-            <v-text-field v-model="email" class="mt-12 custom-background" density="compact" placeholder="Email cím"
-                prepend-inner-icon="mdi-email-outline" variant="outlined" 
+            <v-text-field v-model="email" class="mt-12" density="compact" placeholder="Email cím"
+                prepend-inner-icon="mdi-email-outline" variant="outlined"
                 :rules="[
                     requiredRules.required,
                     emailRules.regex,

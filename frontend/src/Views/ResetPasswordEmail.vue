@@ -14,7 +14,7 @@
                     belül
                     szükséges megadni az új jelszót.
                 </v-card-text>
-                <v-text-field ref="emailValue" v-model="email" class="mt-12 custom-background" density="compact" placeholder="Email cím"
+                <v-text-field ref="emailValue" v-model="email" class="mt-12" density="compact" placeholder="Email cím"
                     prepend-inner-icon="mdi-email-outline" variant="outlined"
                     :rules="[requiredRules.required, emailRules.regex]">
                 </v-text-field>

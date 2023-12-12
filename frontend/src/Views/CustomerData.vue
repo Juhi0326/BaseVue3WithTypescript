@@ -49,7 +49,7 @@
                         </v-row>
                         <v-row>
                             <v-col cols="11">
-                                <v-text-field v-model="email" class="custom-background" density="compact"
+                                <v-text-field v-model="email" density="compact"
                                     placeholder="Email cím" prepend-inner-icon="mdi-email-outline" variant="outlined"
                                     label="Email" ref="refEmail" :rules="[emailRules2.regex]">
                                 </v-text-field>
