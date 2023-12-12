@@ -1,4 +1,5 @@
 <template>
+    <ConfirmDialog ref="confirm"></ConfirmDialog>
     <v-card class="mx-auto mt-12 pa-12 pb-8" elevation="8" max-width="600" rounded="lg" color='form'>
         <v-img :src="userImage" height="300px"></v-img>
 
@@ -24,7 +25,9 @@
                     Elég csak azt a mezőt kitölteni, amit módosítani szeretnél!
                 </v-card-subtitle>
 
-                <CustomForm @submit.prevent="changData" ref="changeDataForm" v-model="formValidity">
+                <CustomForm
+                    @submit.prevent="changData('Adat módosítás', 'Biztosan meg szeretnéd változtatni az adataidat?')"
+                    ref="changeDataForm" v-model="formValidity">
                     <v-slot>
                         <v-row>
                             <v-col cols="11">
@@ -108,7 +111,9 @@ import { UseSnackBar } from '../stores/useSnackBar';
 import PasswordInput from '../components/PasswordInput.vue'
 import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import useUserService from '../composables/services/useUserService';
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 
+const confirm = ref<InstanceType<typeof ConfirmDialog> | null>(null)
 const passwordInput = ref<InstanceType<typeof PasswordInput> | null>(null)
 const useSnackBar = UseSnackBar();
 const show = ref(false)
@@ -160,7 +165,8 @@ const toggleShow = () => {
     show.value = !show.value;
 };
 
-const changData = async () => {
+const changData = async (titleProp: string, messageProp: string) => {
+    const result = confirm.value && await confirm.value.openDialog(titleProp, messageProp)
     const id = authUserStore.userId
     const user = new FormData();
     if (userName.value !== '') {
@@ -175,53 +181,54 @@ const changData = async () => {
     if (fileInput.value) {
         user.append("userImage", fileInput.value[0]);
     }
+    if (result) {
+        try {
+            if (id) {
+                const response = await useUserService.changeMyDataById(id, user)
+                console.log(response)
+                try {
+                    const updatedUser = await useUserService.getUserById(id)
+                    let permanentState = JSON.parse(JSON.stringify(authUserStore.$state.initialState));
+                    if (permanentState.user) {
+                        permanentState.user.userName = updatedUser?.data.userName
+                        permanentState.user.email = updatedUser?.data.email
+                        permanentState.user.userImage = updatedUser?.data.userImage
+                    }
+                    authUserStore.updateState(authUserStore.$state, permanentState)
 
-    try {
-        if (id) {
-            const response = await useUserService.changeMyDataById(id, user)
-            console.log(response)
-            try {
-                const updatedUser = await useUserService.getUserById(id)
-                let permanentState = JSON.parse(JSON.stringify(authUserStore.$state.initialState));
-                if (permanentState.user) {
-                    permanentState.user.userName = updatedUser?.data.userName
-                    permanentState.user.email = updatedUser?.data.email
-                    permanentState.user.userImage = updatedUser?.data.userImage
+                    openSnackbar()
+                    clearForm()
+                } catch (error) {
+                    console.log(error)
+                    SnackbarError()
                 }
-                authUserStore.updateState(authUserStore.$state, permanentState)
-
-                openSnackbar()
-                clearForm()
-            } catch (error) {
-                console.log(error)
-                SnackbarError()
             }
+        } catch (error) {
+            console.log(error)
+            SnackbarError()
         }
-
-    } catch (error) {
-        console.log(error)
-        SnackbarError()
     }
+
 }
 
 const openSnackbar = () => {
     useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'az adatok módosultak',
-      color: 'success',
-    }
-  })
+        snackbar: {
+            visible: true,
+            text: 'az adatok módosultak',
+            color: 'success',
+        }
+    })
 }
 
 const SnackbarError = () => {
     useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'Az adatok módosítása nem sikerült!',
-      color: 'error',
-    }
-  })
+        snackbar: {
+            visible: true,
+            text: 'Az adatok módosítása nem sikerült!',
+            color: 'error',
+        }
+    })
 }
 
 const handlePasswordChange = (newPassword: string) => {
