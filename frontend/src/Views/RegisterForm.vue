@@ -1,4 +1,5 @@
 <template>
+    <ConfirmDialog ref="confirm"></ConfirmDialog>
     <CustomForm v-model="formValidity">
         <v-slot>
             <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="600" rounded="lg" color='form'>
@@ -43,16 +44,13 @@
                         </v-tooltip>
                     </v-col>
                 </v-row>
-                <PasswordInput 
-                :mandatory=true
-                ref="passwordInput" 
-                :onPasswordChange="handlePasswordChange" 
-                :passwordMatch = "passwordMatch"
-                />
+                <PasswordInput :mandatory=true ref="passwordInput" :onPasswordChange="handlePasswordChange"
+                    :passwordMatch="passwordMatch" />
                 <v-row>
                     <v-col cols="11">
-                        <v-file-input v-model="fileInput" label="File feltöltés" accept="image/png, image/jpeg, image/bmp, image/jpg,"
-                            variant="outlined" :rules="[avatarRules.tooBigFile]">
+                        <v-file-input v-model="fileInput" label="File feltöltés"
+                            accept="image/png, image/jpeg, image/bmp, image/jpg," variant="outlined"
+                            :rules="[avatarRules.tooBigFile]">
                         </v-file-input>
                     </v-col>
                     <v-col cols="1">
@@ -66,7 +64,8 @@
                         </v-tooltip>
                     </v-col>
                 </v-row>
-                <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal" @click="submit"
+                <CustomButtonComponent block class="mb-8" color="aliceblue" size="large" variant="tonal"
+                    @click="submit('Regisztráció', 'Biztosan regisztrálni szeretnél?')"
                     :disabled="!formValidity || !passwordMatch">
                     Regisztrálok
                 </CustomButtonComponent>
@@ -87,7 +86,9 @@ import CustomButtonComponent from '../components/CustomButtonComponent.vue'
 import authService from '../composables/services/useAuthService'
 import { UseSnackBar } from '../stores/useSnackBar';
 import PasswordInput from '../components/PasswordInput.vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 
+const confirm = ref<InstanceType<typeof ConfirmDialog> | null>(null)
 const useSnackBar = UseSnackBar();
 const email = ref('')
 const userName = ref('')
@@ -130,55 +131,58 @@ const clearForm = () => {
     if (passwordInput.value) {
         passwordInput.value.clearForm()
     }
-    
+
 }
 
-const submit = () => {
-    handleRegisterForm()
-    clearForm()
+const submit = (titleProp: string, messageProp: string) => {
+    handleRegisterForm(titleProp, messageProp)
 }
 
-const handleRegisterForm = async () => {
-    const user = new FormData();
-    user.append("userName", userName.value);
-    user.append("email", email.value);
-    user.append("password", password.value);
-    user.append("role", "user");
-    user.append("userImage", fileInput.value[0]);
+const handleRegisterForm = async (titleProp: string, messageProp: string) => {
+    const result = confirm.value && await confirm.value.openDialog(titleProp, messageProp)
+    if (result) {
+        const user = new FormData();
+        user.append("userName", userName.value);
+        user.append("email", email.value);
+        user.append("password", password.value);
+        user.append("role", "user");
+        user.append("userImage", fileInput.value[0]);
 
-    for (var pair of user.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+        for (var pair of user.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        try {
+            const response = await authService.registerForm(user)
+            console.log(response)
+            openSnackbar()
+            clearForm()
+        }
+        catch (error) {
+            console.log(error)
+            registrationError()
+        }
     }
 
-    try {
-        const response = await authService.registerForm(user)
-        console.log(response)
-        openSnackbar()
-    }
-    catch (error) {
-        console.log(error)
-        registrationError()
-    }
 }
 
 const openSnackbar = () => {
     useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'Sikeres regisztráció!',
-      color: 'success',
-    }
-  })
+        snackbar: {
+            visible: true,
+            text: 'Sikeres regisztráció!',
+            color: 'success',
+        }
+    })
 }
 
 const registrationError = () => {
     useSnackBar.updateState(useSnackBar.$state, {
-    snackbar: {
-      visible: true,
-      text: 'Sikertelen regisztráció!',
-      color: 'error',
-    }
-  })
+        snackbar: {
+            visible: true,
+            text: 'Sikertelen regisztráció!',
+            color: 'error',
+        }
+    })
 }
 
 </script>
