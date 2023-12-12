@@ -4,7 +4,8 @@
             <v-text-field v-model="password" @input="emitPasswordChange"
                 :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
                 density="compact" placeholder="Add meg az új a jelszavad" prepend-inner-icon="mdi-lock-outline"
-                variant="outlined" @click:append-inner="visible = !visible" label="Jelszó" :rules="[
+                variant="outlined" @click:append-inner="visible = !visible" label="Jelszó" autocomplete="new-password"
+                 :rules="[
                     requiredRules.required,
                     dangerousCharactersRules.dangerousCharacter,
                     passwordMatch2 || 'A két beírt jelszónak egyeznie kell!'
@@ -28,7 +29,7 @@
         <v-col cols="11">
             <v-text-field v-model="password2" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be újra a jelszavad"
-                prepend-inner-icon="mdi-lock-outline" variant="outlined" @click:append-inner="visible = !visible"
+                prepend-inner-icon="mdi-lock-outline" variant="outlined" @click:append-inner="visible = !visible" autocomplete="current-password"
                 label="Jelszó újra" :rules="[
                     passwordMatch ||
                     'A két beírt jelszónak egyeznie kell!',

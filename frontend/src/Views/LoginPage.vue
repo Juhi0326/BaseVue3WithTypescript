@@ -7,7 +7,7 @@
                 <v-card-title class="mb-12">Bejelentkezés</v-card-title>
             </v-img>
             <v-text-field v-model="email" class="mt-12" density="compact" placeholder="Email cím"
-                prepend-inner-icon="mdi-email-outline" variant="outlined"
+                prepend-inner-icon="mdi-email-outline" variant="outlined" autocomplete="username"
                 :rules="[
                     requiredRules.required,
                     emailRules.regex,
@@ -22,7 +22,7 @@
 
             <v-text-field v-model="password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                 :type="visible ? 'text' : 'password'" density="compact" placeholder="Gépeld be a jelszavad"
-                prepend-inner-icon="mdi-lock-outline" variant="outlined"
+                prepend-inner-icon="mdi-lock-outline" variant="outlined" autocomplete="current-password"
                 :rules="[
                     requiredRules.required,
                     dangerousCharactersRules.dangerousCharacter
